@@ -1,0 +1,114 @@
+[
+ {
+  "price": 25.99,
+  "id": "6b9f2324-2442-4992-931a-ede3eeaecabf",
+  "title": "Hello World",
+  "stock": 5,
+  "movieInfo": {
+   "actors": [
+    "actor1",
+    "actor2",
+    "actor3"
+   ],
+   "ratings": [
+    4,
+    5,
+    2,
+    5,
+    4,
+    1,
+    4
+   ],
+   "directors": [
+    "director1",
+    "director2",
+    "director3"
+   ],
+   "genre": "Comedy",
+   "description": " A movie about hello world",
+   "releaseYear": "1999"
+  }
+ },
+ {
+  "price": 50.99,
+  "id": "93d9f951-1999-4b82-8947-e6454a6e5339",
+  "title": "The First Movie",
+  "stock": 24,
+  "movieInfo": {
+   "actors": [
+    "actor4",
+    "actor5",
+    "actor6"
+   ],
+   "ratings": [
+    
+   ],
+   "directors": [
+    "director4",
+    "director5",
+    "director6"
+   ],
+   "genre": "Action",
+   "description": "First Movie Ever!",
+   "releaseYear": "1200"
+  }
+ },
+ {
+  "price": 25.6,
+  "id": "1ddf7695-03f8-40c8-856f-1f84846bc6ae",
+  "title": "New Movie",
+  "stock": 19,
+  "movieInfo": {
+   "actors": [
+    "actorA",
+    "actorB",
+    "actorC"
+   ],
+   "ratings": [
+    1,
+    2,
+    3,
+    5
+   ],
+   "directors": [
+    "directorA",
+    "directorB",
+    "directorC"
+   ],
+   "genre": "Animated",
+   "description": "Description insert",
+   "releaseYear": "1995"
+  }
+ },
+ {
+  "price": 500.6,
+  "id": "ee97b06c-55e5-4948-b9f6-2c7fa93a3ec1",
+  "title": "Greatest Movie Ever",
+  "stock": 14,
+  "movieInfo": {
+   "actors": [
+    "actor25",
+    "actor26",
+    "actor27"
+   ],
+   "ratings": [
+    1,
+    2,
+    3,
+    4,
+    2,
+    1,
+    0,
+    5
+   ],
+   "directors": [
+    "director25",
+    "director26",
+    "director27"
+   ],
+   "genre": "Action",
+   "description": "Good Movie :D",
+   "releaseYear": "2012"
+  }
+ }
+]

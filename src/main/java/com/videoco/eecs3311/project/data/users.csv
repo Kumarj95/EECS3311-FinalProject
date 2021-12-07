@@ -1,0 +1,5 @@
+UserID, Username, Password, Email, UserType, 
+43eef234-7c73-4cf1-9e8e-b9e743ed877a, kjha95, 123456, jha.kumarv@gmail.com, adminUser, 
+04fb603c-135c-4fa7-b842-e9226e23a4fb, Baller24, 123456, jha.baller@gmail.com, normalUser, 
+a8fec7a1-62b6-4863-8706-9cba413b0e0a, Kobe, 123456, nba2424@gmail.com, operatorUser, 
+724a0ac3-2485-4f12-bd72-b81a137af28f, user244, 245, mynewemail@gmail.com, normalUser,

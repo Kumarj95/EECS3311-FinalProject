@@ -1,0 +1,55 @@
+[
+ {
+  "movies": [
+   "6b9f2324-2442-4992-931a-ede3eeaecabf"
+  ],
+  "payWithPoints": "false",
+  "orderID": "05907650-13fa-4f51-b3af-4b384a483384",
+  "orderStatus": "Delivered",
+  "shippingAddress": "123 My home way",
+  "orderPrice": 25.99,
+  "orderDate": "2021-11-27",
+  "user": "04fb603c-135c-4fa7-b842-e9226e23a4fb",
+  "paymentInfo": {
+   "creditCardNumber": "4388576018402928",
+   "billingAddress": "123 My home way"
+  },
+  "dateDelivered": "2021-11-29"
+ },
+ {
+  "movies": [
+   "6b9f2324-2442-4992-931a-ede3eeaecabf",
+   "93d9f951-1999-4b82-8947-e6454a6e5339"
+  ],
+  "payWithPoints": "false",
+  "orderID": "f6aab151-f2d7-4fcc-9fc6-4fc6d638c5eb",
+  "shippingAddress": "352 Biggest House Ever",
+  "orderStatus": "Delivered",
+  "orderPrice": 76.98,
+  "orderDate": "2021-12-05",
+  "user": "04fb603c-135c-4fa7-b842-e9226e23a4fb",
+  "paymentInfo": {
+   "creditCardNumber": "4532770800010180",
+   "billingAddress": "352 Biggest House Ever"
+  },
+  "dateDelivered": "2021-12-06"
+ },
+ {
+  "movies": [
+   "93d9f951-1999-4b82-8947-e6454a6e5339",
+   "ee97b06c-55e5-4948-b9f6-2c7fa93a3ec1"
+  ],
+  "payWithPoints": "false",
+  "orderID": "231f4a86-d5e1-4a2d-83d5-8452de08d6d6",
+  "shippingAddress": "250 New House Way",
+  "orderStatus": "Delivered",
+  "orderPrice": 551.59,
+  "orderDate": "2021-12-06",
+  "user": "04fb603c-135c-4fa7-b842-e9226e23a4fb",
+  "paymentInfo": {
+   "creditCardNumber": "3528508800545179",
+   "billingAddress": "250 New House Way"
+  },
+  "dateDelivered": "2021-12-06"
+ }
+]
