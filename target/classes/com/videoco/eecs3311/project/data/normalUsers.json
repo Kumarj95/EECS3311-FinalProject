@@ -1,31 +1,22 @@
 [
-  {
-    "allOrdersDelivered": "true",
-    "password": "123456",
-    "province": "Ontario",
-    "userType": "normalUser",
-    "userID": "04fb603c-135c-4fa7-b842-e9226e23a4fb",
-    "loyaltyPoints": 1,
-    "email": "jha.baller@gmail.com",
-    "username": "Baller24"
-  },
-  {
-    "allOrdersDelivered": "true",
-    "password": "245",
-    "province": "British Columbia",
-    "userType": "normalUser",
-    "userID": "724a0ac3-2485-4f12-bd72-b81a137af28f",
-    "loyaltyPoints": 0,
-    "email": "mynewemail@gmail.com",
-    "username": "user244"
-  },
-  {
-    "allOrdersDelivered": "true",
-    "password": "NewPassword",
-    "userType": "normalUser",
-    "userID": "2ed3dd90-aec5-4a4a-b22e-daf928442041",
-    "loyaltyPoints": 0,
-    "email": "Normalemail2@gmail.com",
-    "username": "NewNormalUser"
-  }
+ {
+  "allOrdersDelivered": "true",
+  "password": "123456",
+  "province": "Ontario",
+  "userType": "normalUser",
+  "userID": "04fb603c-135c-4fa7-b842-e9226e23a4fb",
+  "loyaltyPoints": 1,
+  "email": "jha.baller@gmail.com",
+  "username": "Baller24"
+ },
+ {
+  "allOrdersDelivered": "true",
+  "password": "245",
+  "province": "British Columbia",
+  "userType": "normalUser",
+  "userID": "724a0ac3-2485-4f12-bd72-b81a137af28f",
+  "loyaltyPoints": 0,
+  "email": "mynewemail@gmail.com",
+  "username": "user244"
+ }
 ]

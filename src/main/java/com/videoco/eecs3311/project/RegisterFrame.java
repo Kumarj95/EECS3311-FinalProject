@@ -4,6 +4,9 @@
  */
 package com.videoco.eecs3311.project;
 
+import java.util.UUID;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author kvjha
@@ -34,10 +37,12 @@ public class RegisterFrame extends javax.swing.JFrame {
         Email = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         user = new javax.swing.JTextField();
-        password = new javax.swing.JTextField();
+        pass = new javax.swing.JTextField();
         email = new javax.swing.JTextField();
+        Register = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Register Screen");
 
         jLabel1.setText("REGISTER SCREEN");
 
@@ -56,7 +61,6 @@ public class RegisterFrame extends javax.swing.JFrame {
         });
 
         OperatorUser.setText("OperatorUser");
-        OperatorUser.setActionCommand("OperatorUser");
         OperatorUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 OperatorUserActionPerformed(evt);
@@ -78,10 +82,10 @@ public class RegisterFrame extends javax.swing.JFrame {
             }
         });
 
-        password.setText("Password");
-        password.addActionListener(new java.awt.event.ActionListener() {
+        pass.setText("Password");
+        pass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                passwordActionPerformed(evt);
+                passActionPerformed(evt);
             }
         });
 
@@ -89,6 +93,13 @@ public class RegisterFrame extends javax.swing.JFrame {
         email.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 emailActionPerformed(evt);
+            }
+        });
+
+        Register.setText("Register!");
+        Register.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RegisterActionPerformed(evt);
             }
         });
 
@@ -101,9 +112,12 @@ public class RegisterFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(33, 33, 33)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(NormalUser, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(AdminUser, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(OperatorUser)))
+                            .addComponent(OperatorUser)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(NormalUser, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
+                                .addComponent(Register))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(15, 15, 15)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -119,10 +133,10 @@ public class RegisterFrame extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(28, 28, 28)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(pass, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(user, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(105, Short.MAX_VALUE))
+                .addGap(66, 66, 66))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -136,7 +150,7 @@ public class RegisterFrame extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Password)
-                    .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Email)
@@ -146,7 +160,9 @@ public class RegisterFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(AdminUser, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(NormalUser, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(NormalUser, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Register))
                 .addGap(18, 18, 18)
                 .addComponent(OperatorUser)
                 .addGap(18, 18, 18))
@@ -157,29 +173,64 @@ public class RegisterFrame extends javax.swing.JFrame {
 
     private void AdminUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdminUserActionPerformed
         // TODO add your handling code here:
+        AdminUser.setSelected(true);
         NormalUser.setSelected(false);
         OperatorUser.setSelected(false);
     }//GEN-LAST:event_AdminUserActionPerformed
 
     private void NormalUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NormalUserActionPerformed
         // TODO add your handling code here:
+        AdminUser.setSelected(false);
+        NormalUser.setSelected(true);
+        OperatorUser.setSelected(false);
     }//GEN-LAST:event_NormalUserActionPerformed
 
     private void OperatorUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OperatorUserActionPerformed
         // TODO add your handling code here:
+        AdminUser.setSelected(false);
+        NormalUser.setSelected(false);
+        OperatorUser.setSelected(true);
+
     }//GEN-LAST:event_OperatorUserActionPerformed
 
     private void userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_userActionPerformed
 
-    private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
+    private void passActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_passwordActionPerformed
+    }//GEN-LAST:event_passActionPerformed
 
     private void emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_emailActionPerformed
+
+    private void RegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterActionPerformed
+        // TODO add your handling code here:
+        if(user.equals("") || pass.equals("") || email.equals("")){
+            JOptionPane.showMessageDialog(this, "A field is blank");
+        }else{
+            SystemV sys= SystemV.getInstance();
+            UUID id= UUID.randomUUID();
+            boolean bool=true;
+            if(AdminUser.isSelected()){
+                bool=sys.registerUser(new AdminUser(id,user.getText(),pass.getText(),email.getText()));
+            }else if(NormalUser.isSelected()){
+                bool=sys.registerUser(new NormalUser(id,user.getText(),pass.getText(),email.getText()));
+                
+            }else if(OperatorUser.isSelected()){
+               bool= sys.registerUser(new OperatorUser(id,user.getText(),pass.getText(),email.getText()));
+                
+            }else{
+                JOptionPane.showMessageDialog(this, "Select a user type!");                
+            }
+            if(bool==false){
+                JOptionPane.showMessageDialog(this, "Could Not Register User, username or email already exists!");                
+
+            }
+            
+        }
+    }//GEN-LAST:event_RegisterActionPerformed
 
     /**
      * @param args the command line arguments
@@ -208,11 +259,12 @@ public class RegisterFrame extends javax.swing.JFrame {
     private javax.swing.JRadioButton NormalUser;
     private javax.swing.JRadioButton OperatorUser;
     private javax.swing.JLabel Password;
+    private javax.swing.JButton Register;
     private javax.swing.JLabel Username;
     private javax.swing.JTextField email;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JTextField password;
+    private javax.swing.JTextField pass;
     private javax.swing.JTextField user;
     // End of variables declaration//GEN-END:variables
 }
