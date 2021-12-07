@@ -158,6 +158,7 @@ public class RegisterFrame extends javax.swing.JFrame {
     private void AdminUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdminUserActionPerformed
         // TODO add your handling code here:
         NormalUser.setSelected(false);
+        OperatorUser.setSelected(false);
     }//GEN-LAST:event_AdminUserActionPerformed
 
     private void NormalUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NormalUserActionPerformed
