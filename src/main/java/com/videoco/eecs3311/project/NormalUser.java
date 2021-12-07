@@ -73,13 +73,25 @@ public class NormalUser extends User {
 		}
 	}
 	
-	public void addMovieToOrder(Movie movie) {
+	public boolean addMovieToOrder(Movie movie) {
+            if(movie.getStock()<=0){
+                return false;
+            }
 		if(orders.size()>0) {
-			orders.get(orders.size()-1).addToOrder(movie.getId());;
+                    if(orders.get(orders.size()-1).getOrderStatus().equals(OrderStatus.Creating)){
+			orders.get(orders.size()-1).addToOrder(movie.getId());
+                        return true;
+                    }else{
+			UserOrder newOrder= new UserOrder(UUID.randomUUID(),this);
+			newOrder.addToOrder(movie.getId());
+			orders.add(newOrder);    
+                        return true;
+                    }
 		}else {
 			UserOrder newOrder= new UserOrder(UUID.randomUUID(),this);
 			newOrder.addToOrder(movie.getId());
 			orders.add(newOrder);
+                        return true;
 		}
 	}
 	
@@ -116,6 +128,42 @@ public class NormalUser extends User {
 		s+= " with orders  " + orders.toString();
 		return s;
 	}
+        
+        
+        public ArrayList<Movie> search(){
+            SystemV sys= SystemV.getInstance();
+            return sys.getMovies();
+        }
+        
+         public ArrayList<Movie> search(String s){
+            SystemV sys= SystemV.getInstance();
+            ArrayList<Movie> ret= new ArrayList<Movie>();
+            try{
+                UUID id= UUID.fromString(s);
+                for(Movie movie: sys.getMovies()){
+                    if(movie.getId().equals(id)){
+                        ret.add(movie);
+                    }
+                }
+            }catch(IllegalArgumentException e){
+                try{
+                    Genre genre= Genre.valueOf(s);
+                    for(Movie movie: sys.getMovies()){
+                        if(movie.getMovieInfo().getGenre().equals(genre)){
+                            ret.add(movie);
+                        }
+                    }
+               }catch(IllegalArgumentException b){
+                for(Movie movie: sys.getMovies()){
+                    if(movie.getTitle().equals(s)){
+                        ret.add(movie);
+                    }
+                }
+                }
+
+            }
+            return ret;
+        }
 	
 	
 

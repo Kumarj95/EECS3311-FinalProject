@@ -40,10 +40,15 @@ public abstract  class   Order {
 	}
 	
 	public boolean checkValidOrder() {
-		if(paymentInfo!=null && paymentInfo.isValid() && movies.size()>0) {
-			return true;
+		if(paymentInfo==null || !paymentInfo.isValid() || movies.size()<=0) {
+			return false;
 		}
-		return false;
+                for(Movie movie:movies){
+                    if(movie.getStock()<=0){
+                        return false;
+                    }
+                }
+		return true;
 	}
 	
 //	private void updateMovieStock() {

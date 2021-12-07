@@ -257,6 +257,15 @@ public class SystemV {
 		}, 30, 5, TimeUnit.SECONDS);
 
 	}
+        
+        public ArrayList<Movie> getMovies(){
+            ArrayList<Movie> ret = new ArrayList<Movie>();
+            
+            for(Entry<UUID,Movie> entry:movies.entrySet()){
+                ret.add(entry.getValue());
+            }
+            return ret;
+        }
 
 	@SuppressWarnings("unchecked")
 	public synchronized void updateOrdersWithDeliveryDates(HashMap<UUID, LocalDate> input) {
