@@ -1,6 +1,7 @@
 package com.videoco.eecs3311.project;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.UUID;
 
 public class OperatorUser extends User {
@@ -48,12 +49,12 @@ public class OperatorUser extends User {
 		return null;
 	}
 	
-	public PhoneOrder getOrderGeneral(UUID id) {
+	public OrderStatus getOrderGeneral(UUID id) {
 		SystemV sys= SystemV.getInstance();
 		ArrayList<PhoneOrder> phoneOrders=sys.getPhoneOrders();
 		for(PhoneOrder phoneOrder:phoneOrders) {
 			if(phoneOrder.getOrderID().equals(id)) {
-				return phoneOrder;
+				return phoneOrder.getOrderStatus();
 			}
 		}
 		return null;
@@ -67,6 +68,42 @@ public class OperatorUser extends User {
         	}
         }
         return ret;
+    }
+    
+    public UUID simulatePhoneOrder(){
+        PhoneUser phoneUser= new PhoneUser("5139851782696438","145 billing address", "155 shipping address");
+        SystemV sys= SystemV.getInstance();
+        ArrayList<Movie> movie=sys.getMovies();
+        
+        ArrayList<String> names= new ArrayList<String> ();
+        while(names.size()<2){
+            int index= (int)(Math.random() * ((movie.size())));
+            names.add(movie.get(index).getTitle());
+        }
+        return phoneUser.placePhoneOrder(names, this);
+    }
+    public UUID simulatePhoneOrderInvalid(){
+        PhoneUser phoneUser= new PhoneUser("5139851482696438","145 billing address", "155 shipping address");
+        SystemV sys= SystemV.getInstance();
+        ArrayList<Movie> movie=sys.getMovies();
+        
+        ArrayList<String> names= new ArrayList<String> ();
+        while(names.size()<2){
+            int index= (int)(Math.random() * ((movie.size())));
+            names.add(movie.get(index).getTitle());
+        }
+        return phoneUser.placePhoneOrder(names, this);
+    }
+    
+    public boolean cancelOrder(String id) {
+    	try{
+    		UUID uuid= UUID.fromString(id);
+    		SystemV sys= SystemV.getInstance();
+    		return sys.cancelPhoneOrder(uuid);
+    	}catch(IllegalArgumentException e) {
+    		return false;
+    	}
+    	
     }
     
 

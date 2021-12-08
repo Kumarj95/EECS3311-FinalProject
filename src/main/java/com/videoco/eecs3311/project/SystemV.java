@@ -268,7 +268,8 @@ public class SystemV {
 		}
 		return ret;
 	}
-
+	
+	
 	@SuppressWarnings("unchecked")
 	public void findAndUpdateUserOverdue() {
 		FileReader reader2;
@@ -370,13 +371,12 @@ public class SystemV {
 		}
 
 	}
-        public boolean isValidNewUser(User register){
+        public boolean isValidNewUser(NormalUser register){
 		HashMap<UserType, ArrayList<? extends User>> users = getUsers();
 		for (Entry<UserType, ArrayList<? extends User>> entry : users.entrySet()) {
 			ArrayList<? extends User> userL = entry.getValue();
 			for (User user : userL) {
-				if (user.getUsername().equals(register.getUsername()) || user.getUserID().equals(register.getUserID())
-						|| user.getEmail().equals(register.getEmail())) {
+				if ((user.getUsername().equals(register.getUsername()) || user.getEmail().equals(register.getEmail())) &&( !user.getUserID().equals(register.getUserID()))) {
 					return false;
 				}
 			}  
@@ -618,6 +618,7 @@ public class SystemV {
 				nUser.put("username", user.getUsername());
 				nUser.put("password", user.getPassword());
 				nUser.put("email", user.getEmail());
+				nUser.put("province", user.getProvince());
 				nUser.put("userType", UserType.normalUser.toString());
 				nUser.put("loyaltyPoints", user.getLoyaltyPoints());
 				nUser.put("allOrdersDelivered", Boolean.valueOf(user.isAllOrdersDelivered()).toString());
@@ -724,7 +725,61 @@ public class SystemV {
             
         }
 
-        
+    	public synchronized boolean cancelUserOrderDelivered(UUID orderID) {
+
+    		boolean isOrder = false;
+    		for (UUID id : userOrders.keySet()) {
+
+    			if (id.equals(orderID)) {
+    				isOrder = true;
+
+    			}
+    		}
+    		if (isOrder) {
+    			UserOrder order = userOrders.get(orderID);
+    				try {
+    					JSONParser jsonParser = new JSONParser();
+    					FileReader reader = new FileReader(System.getProperty("user.dir") + filepath + "userOrders.json");
+    					Object obj = jsonParser.parse(reader);
+    					JSONArray orderList = (JSONArray) obj;
+    					int i = 0;
+    					for (Object ob : orderList) {
+    						JSONObject obj1 = (JSONObject) ob;
+    						if (obj1.get("orderID").toString().equals(orderID.toString())) {
+    							break;
+    						}
+    						i++;
+    					}
+    					for (Movie movie : order.getMovies()) {
+    						changeMovieStock(movie.getId(), 1);
+    					}
+    					orderList.remove(i);
+    					reader.close();
+    					FileWriter writer = new FileWriter(System.getProperty("user.dir") + filepath + "userOrders.json",
+    							false);
+    					writer.write(formatJSONStr(orderList.toJSONString(), 1));
+    					writer.flush();
+    					normalUsers.get(userOrders.get(orderID).getUserID()).cancelOrder(orderID);
+    					;
+    					userOrders.remove(orderID);
+    					writer.close();
+    					DeliveryService.removeFromDeliveries(orderID);
+    					return true;
+
+    				} catch (IOException e) {
+    					e.printStackTrace();
+    				} catch (ParseException e) {
+    					// TODO Auto-generated catch block
+    					e.printStackTrace();
+    				}
+    			} else {
+    				return false;
+    			}
+
+    		return false;
+
+    	}
+   
 
 	public synchronized boolean cancelUserOrder(UUID orderID) {
 
@@ -738,7 +793,7 @@ public class SystemV {
 		}
 		if (isOrder) {
 			UserOrder order = userOrders.get(orderID);
-			if (order.getOrderStatus() != OrderStatus.Delivered && order.getOrderStatus() != OrderStatus.Cancelled) {
+			if (order.getOrderStatus().equals(OrderStatus.Processed) ||  order.getOrderStatus().equals(OrderStatus.Delivering)) {
 				try {
 					JSONParser jsonParser = new JSONParser();
 					FileReader reader = new FileReader(System.getProperty("user.dir") + filepath + "userOrders.json");
@@ -794,8 +849,8 @@ public class SystemV {
 			}
 		}
 		if (isOrder) {
-			UserOrder order = userOrders.get(orderID);
-			if (order.getOrderStatus() != OrderStatus.Delivered) {
+			PhoneOrder order = phoneOrders.get(orderID);
+			if (order.getOrderStatus() == OrderStatus.Delivering || order.getOrderStatus()==OrderStatus.Processed) {
 
 				try {
 					JSONParser jsonParser = new JSONParser();
@@ -818,7 +873,8 @@ public class SystemV {
 							false);
 					writer.write(formatJSONStr(orderList.toJSONString(), 1));
 					writer.flush();
-					userOrders.remove(orderID);
+					phoneOrders.remove(orderID);
+                                        return true;
 
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -849,6 +905,7 @@ public class SystemV {
 				}
 
 			}
+			movies.get(id).setStock(movies.get(id).getStock()+i);
 			FileWriter writer = new FileWriter(System.getProperty("user.dir") + filepath + "movies.json", false);
 			writer.write(formatJSONStr(movieList.toJSONString(), 1));
 			writer.flush();
@@ -878,6 +935,9 @@ public class SystemV {
 			}
 			if (isUnique && order.getOrderStatus().equals(OrderStatus.Creating)) {
 				order.setOrderStatus(OrderStatus.Processed);
+                                if(!PaymentService.handlePhoneUserOrder(order)){
+                                    return false;
+                                }
 				phoneOrders.put(order.getOrderID(), order);
 				try {
 					JSONParser jsonParser = new JSONParser();
@@ -902,7 +962,6 @@ public class SystemV {
 					orderJSON.put("operator", order.getOperatorID().toString());
 					orderJSON.put("shippingAddress", order.getShippingAddress());
 					orderJSON.put("orderDate", order.getOrderDate().toString());
-					orderJSON.put("user", order.getOperatorID().toString());
 					orderJSON.put("dateDelivered", order.getDateDelivered().toString());
 					orderJSON.put("orderStatus", order.getOrderStatus().toString());
 					JSONObject orderJSONM = new JSONObject(orderJSON);
@@ -915,6 +974,7 @@ public class SystemV {
 					writer.flush();
 					writer.close();
 					reader.close();
+                                        order.SetOrderStatus(OrderStatus.Delivering);
 					DeliveryService.addNewDeliveryToWarehouse(order);
 
 				} catch (FileNotFoundException e) {
@@ -1173,6 +1233,8 @@ public class SystemV {
 		return new Movie(title, stock, id, price, info);
 
 	}
+	
+	
 
 	private MovieInfo parseMovieInfo(JSONObject movieInfo) {
 		ArrayList<String> actors = new ArrayList<String>();
@@ -1197,6 +1259,64 @@ public class SystemV {
 
 		return new MovieInfo(actors, directors, description, releaseYear, genre, ratings);
 
+	}
+	@SuppressWarnings("unchecked")
+	public boolean updateMovie(UUID id, Movie movie) {
+		if(!movies.containsKey(id)) {
+			return false;
+		}else {
+			movies.put(id, movie);
+			try {
+				JSONParser jsonParser= new JSONParser();				
+				FileReader reader = new FileReader(System.getProperty("user.dir") + filepath + "movies.json");
+				Object obj = jsonParser.parse(reader);		
+				JSONArray movieList = (JSONArray) obj;
+				int i=0;
+				for(Object ob:movieList) {
+					JSONObject ob1= (JSONObject)ob;
+					UUID uuid=UUID.fromString(ob1.get("id").toString());
+					if(uuid.equals(id)) {
+						break;
+					}
+					i++;
+				}
+				movieList.remove(i);
+				HashMap<String, Object> movieJSON = new HashMap<String, Object>();
+				movieJSON.put("title", movie.getTitle());
+				movieJSON.put("stock", movie.getStock());
+				movieJSON.put("price", movie.getPrice());
+				movieJSON.put("id", movie.getId().toString());
+				HashMap<String, Object> movieInfoJson = new HashMap<String, Object>();
+				movieInfoJson.put("actors", movie.getMovieInfo().getActors());
+				movieInfoJson.put("directors", movie.getMovieInfo().getDirectors());
+				movieInfoJson.put("description", movie.getMovieInfo().getDescription());
+				movieInfoJson.put("genre", movie.getMovieInfo().getGenre().toString());
+				movieInfoJson.put("releaseYear", movie.getMovieInfo().getReleaseYear());
+				movieInfoJson.put("ratings", movie.getMovieInfo().getRatings());
+				movieJSON.put("movieInfo", movieInfoJson);
+				reader.close();				
+				JSONObject movieJSONM = new JSONObject(movieJSON);
+				movieList.add(movieJSONM);
+				
+				FileWriter writer = new FileWriter(System.getProperty("user.dir") + filepath + "movies.json", false);
+
+				writer.write(formatJSONStr(movieList.toJSONString(), 1));
+				writer.flush();
+				writer.close();
+				
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return true;
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -1424,6 +1544,7 @@ public class SystemV {
 			}
 		}
 		for (AdminUser user : this.getAdminUsers()) {
+//                    System.out.println(user.getUsername());
 			if (user.getPassword().equals(password) && user.getUsername().equals(username)) {
 				res = user;
 				return res;
@@ -1624,9 +1745,9 @@ public class SystemV {
 
 //	public boolean addMovie()
 
-	public static void main(String[] args) {
-		System.out.println(System.getProperty("user.dir"));
-		SystemV s = new SystemV();
+//	public static void main(String[] args) {
+//		System.out.println(System.getProperty("user.dir"));
+//		SystemV s = new SystemV();
 //		UserOrder order= new UserOrder(UUID.fromString("4d56b74b-3e96-45c2-b4bd-41351537c806"),s.getNormalUsersMap().get(UUID.fromString("724a0ac3-2485-4f12-bd72-b81a137af28f")));
 //		order.addToOrder(UUID.fromString("1ddf7695-03f8-40c8-856f-1f84846bc6ae"));
 //		order.setPayWithPoints(false);
@@ -1691,7 +1812,7 @@ public class SystemV {
 //		order2.placeOrder();
 //		s.cancelUserOrder(UUID.fromString("f6aab151-f2d7-4fcc-9fc6-4fc6d638c5eb"));
 //		java.lang.System.out.println(s.registerUser(user));
-	}
+//	}
 
 //				System s=new System();
 //				try {

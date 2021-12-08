@@ -453,12 +453,23 @@ public class NormalUserScreen extends javax.swing.JFrame {
             
             tableModel.addRow(row);
         }
+        
         resultsTable.setModel(tableModel);
         resultsTable.getColumnModel().getColumn(0).setMinWidth(100);
         resultsTable.getColumnModel().getColumn(1).setMinWidth(150);
         resultsTable.getColumnModel().getColumn(2).setPreferredWidth(25);
         resultsTable.getColumnModel().getColumn(3).setPreferredWidth(25);
         resultsTable.getColumnModel().getColumn(4).setPreferredWidth(75);
+        if(movies.size()==0){
+            String[] row={"No such movies found"};
+            tableModel.addRow(row);
+            resultsTable.setModel(tableModel);
+        resultsTable.getColumnModel().getColumn(0).setMinWidth(300);
+            
+                
+        }
+        
+        
 
         
 

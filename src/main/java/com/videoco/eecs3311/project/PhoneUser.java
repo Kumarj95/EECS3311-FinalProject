@@ -33,22 +33,56 @@ public class PhoneUser {
 		for(Movie movie: movies) {
 			order.addToOrder(movie);
 		}
+		if(sys.addPhoneOrder(order)) {
 		
 		
 		return order.getOrderID();
+		}else {
+			return null;
+		}
 		
 	}
+	public UUID placePhoneOrder(ArrayList<String> MovieNames, OperatorUser op) {
+		SystemV sys= SystemV.getInstance();
+		OperatorUser operator=op;
+                
+                
+                if(operator==null){
+                    return null;
+                }
+		
+		ArrayList<Movie> movies=operator.search(MovieNames);
+		
+		PhoneOrder order= new PhoneOrder(UUID.randomUUID(),operator);
+		
+		order.setShippingAddress(shippingAddress);
+		order.setPaymentInfo(paymentInfo);
+		
+		for(Movie movie: movies) {
+			order.addToOrder(movie);
+		}
+		
+		if(sys.addPhoneOrder(order)) {
+		
+		
+		return order.getOrderID();
+		}else {
+			return null;
+		}
+		
+	}
+        
 	
 	public OrderStatus getOrderStatus(String id) {
 		try {
 		UUID uuid= UUID.fromString(id);
 		SystemV sys= SystemV.getInstance();
 		OperatorUser operator=sys.getOperatorUsers().get(new Random().nextInt(sys.getOperatorUsers().size()));
-		PhoneOrder oder= operator.getOrderGeneral(uuid);
+		OrderStatus oder= operator.getOrderGeneral(uuid);
 		if(oder==null) {
 			return null;
 		}else {
-			return oder.getOrderStatus();
+			return oder;
 		}
 		}catch(IllegalArgumentException e) {
 			return null;

@@ -154,8 +154,15 @@ public class LoginFrame extends javax.swing.JFrame {
                            screen.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
                            break;
                        case adminUser:
+                           AdminUserScreen screen3= new AdminUserScreen((AdminUser) retUser);
+                           screen3.setVisible(true);
+                           screen3.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                           
                            break;
                        case operatorUser:
+                           OperatorUserScreen screen2= new OperatorUserScreen((OperatorUser) retUser);
+                           screen2.setVisible(true);
+                           screen2.setDefaultCloseOperation(DISPOSE_ON_CLOSE);                           
                            break;
                    }
                }else{

@@ -44,10 +44,10 @@ public class Movie {
 		this.price = price;
 	}
 	public MovieInfo getMovieInfo() {
-		return movieInfo.clone();
-	}
+		return movieInfo;
+		}
 	public void setMovieInfo(MovieInfo movieInfo) {
-		this.movieInfo = movieInfo.clone();
+		this.movieInfo = movieInfo;
 	}
 	
 	public Movie clone() {

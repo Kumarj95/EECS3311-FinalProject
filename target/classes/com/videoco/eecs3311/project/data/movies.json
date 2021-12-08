@@ -30,30 +30,6 @@
   }
  },
  {
-  "price": 50.99,
-  "id": "93d9f951-1999-4b82-8947-e6454a6e5339",
-  "title": "The First Movie",
-  "stock": 17,
-  "movieInfo": {
-   "actors": [
-    "actor4",
-    "actor5",
-    "actor6"
-   ],
-   "ratings": [
-    
-   ],
-   "directors": [
-    "director4",
-    "director5",
-    "director6"
-   ],
-   "genre": "Action",
-   "description": "First Movie Ever!",
-   "releaseYear": "1200"
-  }
- },
- {
   "price": 25.6,
   "id": "1ddf7695-03f8-40c8-856f-1f84846bc6ae",
   "title": "New Movie",
@@ -110,5 +86,29 @@
    "description": "Good Movie :D",
    "releaseYear": "2012"
   }
+ },
+ {
+  "id": "93d9f951-1999-4b82-8947-e6454a6e5339",
+  "title": "The Second Movie",
+  "stock": 17,
+  "movieInfo": {
+   "actors": [
+    "actor4",
+    " actor5",
+    " actor6"
+   ],
+   "ratings": [
+    
+   ],
+   "directors": [
+    "director4",
+    "director5",
+    "director6"
+   ],
+   "genre": "Action",
+   "description": "Second Movie Ever!",
+   "releaseYear": "1201"
+  },
+  "price": 50.99
  }
 ]

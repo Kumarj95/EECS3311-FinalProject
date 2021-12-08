@@ -65,6 +65,46 @@ public class NormalUser extends User {
               sys.updateNormalUser(this.getUserID(), this);             
                 
 	}
+        @Override
+       public void setUsername(String username) {
+            SystemV sys= SystemV.getInstance();
+                String oldUsername=this.getUsername();
+		super.setUsername(username);
+                if(!sys.isValidNewUser(this)){
+                    super.setUsername(oldUsername);
+                }else{
+                        sys.updateNormalUser(this.getUserID(), this);
+                                 
+                }
+	}
+               @Override
+       public void setEmail(String email) {
+            SystemV sys= SystemV.getInstance();
+                String oldEmail=this.getEmail();
+		super.setEmail(email);
+                if(!sys.isValidNewUser(this)){
+                    super.setEmail(oldEmail);
+                }else{
+                        sys.updateNormalUser(this.getUserID(), this);
+                                 
+                }
+	}
+               @Override
+       public void setPassword(String password) {
+            SystemV sys= SystemV.getInstance();
+                String oldPassword=this.getPassword();
+		super.setPassword(password);
+                if(!sys.isValidNewUser(this)){
+                    super.setPassword(oldPassword);
+                }else{
+                        sys.updateNormalUser(this.getUserID(), this);
+                                 
+                }
+	}
+       
+
+
+
 	public int getLoyaltyPoints() {
 		return loyaltyPoints;
 	}

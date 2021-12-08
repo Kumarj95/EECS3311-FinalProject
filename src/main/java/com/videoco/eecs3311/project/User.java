@@ -35,31 +35,13 @@ public abstract class User {
 		return username;
 	}
 	public void setUsername(String username) {
-            SystemV sys= SystemV.getInstance();
-                String oldUsername=username;
 		this.username = username;
-                if(!sys.isValidNewUser(this)){
-                    this.email=oldUsername;
-                }else{
-                    if(this.usertype.equals(UserType.normalUser)){
-                        sys.updateNormalUser(userID,(NormalUser) this);
-                    }                    
-                }
 	}
 	public String getPassword() {
 		return password;
 	}
 	public void setPassword(String password) {
-                SystemV sys= SystemV.getInstance();
-                String oldPassword=password;
 		this.password = password;
-                if(!sys.isValidNewUser(this)){
-                    this.email=oldPassword;
-                }else{
-                    if(this.usertype.equals(UserType.normalUser)){
-                        sys.updateNormalUser(userID,(NormalUser) this);
-                    }                    
-                }
 
 	}
 	public UserType getUsertype() {
@@ -72,16 +54,7 @@ public abstract class User {
 		return email;
 	}
 	public void setEmail(String email) {
-            SystemV sys= SystemV.getInstance();
-                String oldEmail=email;
 		this.email = email;
-                if(!sys.isValidNewUser(this)){
-                    this.email=oldEmail;
-                }else{
-                    if(this.usertype.equals(UserType.normalUser)){
-                        sys.updateNormalUser(userID,(NormalUser) this);
-                    }                    
-                }
 	}
 	@Override
 	public String toString() {

@@ -115,10 +115,6 @@ public abstract  class   Order {
 	}
 	
 	
-	public void deliver() {
-		SetOrderStatus(OrderStatus.Delivered);
-		setDateDelivered(LocalDate.now());
-	}
 	
 	public void setPaymentInfo(PaymentInfo info) {
 		this.paymentInfo=info;

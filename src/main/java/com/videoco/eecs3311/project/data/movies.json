@@ -3,7 +3,7 @@
   "price": 25.99,
   "id": "6b9f2324-2442-4992-931a-ede3eeaecabf",
   "title": "Hello World",
-  "stock": 4,
+  "stock": 3,
   "movieInfo": {
    "actors": [
     "actor1",
@@ -30,34 +30,10 @@
   }
  },
  {
-  "price": 50.99,
-  "id": "93d9f951-1999-4b82-8947-e6454a6e5339",
-  "title": "The First Movie",
-  "stock": 17,
-  "movieInfo": {
-   "actors": [
-    "actor4",
-    "actor5",
-    "actor6"
-   ],
-   "ratings": [
-    
-   ],
-   "directors": [
-    "director4",
-    "director5",
-    "director6"
-   ],
-   "genre": "Action",
-   "description": "First Movie Ever!",
-   "releaseYear": "1200"
-  }
- },
- {
   "price": 25.6,
   "id": "1ddf7695-03f8-40c8-856f-1f84846bc6ae",
   "title": "New Movie",
-  "stock": 19,
+  "stock": 18,
   "movieInfo": {
    "actors": [
     "actorA",
@@ -109,6 +85,60 @@
    "genre": "Action",
    "description": "Good Movie :D",
    "releaseYear": "2012"
+  }
+ },
+ {
+  "price": 50.99,
+  "id": "93d9f951-1999-4b82-8947-e6454a6e5339",
+  "title": "The Second Movie",
+  "stock": 17,
+  "movieInfo": {
+   "actors": [
+    "actor4",
+    " actor5",
+    " actor6"
+   ],
+   "ratings": [
+    
+   ],
+   "directors": [
+    "director4",
+    "director5",
+    "director6"
+   ],
+   "genre": "Action",
+   "description": "Second Movie Ever!",
+   "releaseYear": "1201"
+  }
+ },
+ {
+  "price": 11.66,
+  "id": "09a8e288-5e69-4916-8c56-137de1e49b7e",
+  "title": "The third movie",
+  "stock": 25,
+  "movieInfo": {
+   "actors": [
+    "Actor Name1",
+    " Actor Name2",
+    " Actor Name3"
+   ],
+   "ratings": [
+    1,
+    2,
+    4,
+    5,
+    1,
+    2,
+    4
+   ],
+   "directors": [
+    "Director Name1",
+    " Director Name2",
+    " Director Name 3"
+   ],
+   "genre": "Comedy",
+   "description": "The third movie :)",
+   "releaseYear": "2021"
   }
  }
 ]
