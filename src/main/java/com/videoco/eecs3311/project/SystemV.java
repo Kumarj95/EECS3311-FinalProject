@@ -266,6 +266,10 @@ public class SystemV {
             }
             return ret;
         }
+        
+        
+        public void findOverDue(){
+        }
 
 	@SuppressWarnings("unchecked")
 	public synchronized void updateOrdersWithDeliveryDates(HashMap<UUID, LocalDate> input) {
@@ -815,7 +819,11 @@ public class SystemV {
 							false);
 					writer.write(formatJSONStr(orderList.toJSONString(), 1));
 					writer.flush();
-					DeliveryService.addNewDeliveryToWarehouse(order);
+                                        if(PaymentService.handleNormalUserOrder(order)){
+                                            DeliveryService.addNewDeliveryToWarehouse(order);
+                                        }else{
+                                            return false;
+                                        }
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

@@ -19,7 +19,7 @@ public class UserOrder extends Order {
 	public UserOrder(UUID orderID, NormalUser user) {
 		super(orderID);
 		this.user=user;
-	}
+            }
 
 	public UUID getUserID() {
 		return user.getUserID();
@@ -38,7 +38,6 @@ public class UserOrder extends Order {
 		if((payWithPoints &&user.getLoyaltyPoints()<10) || (!getPaymentInfo().isValid()) ) {
 			return false;
 		}else {
-		
 		return s.addUserOrder(this);
 		}
 	}

@@ -422,6 +422,7 @@ public class NormalUserScreen extends javax.swing.JFrame {
         this.user.addOrder(order);
         updateOrdersTable();
         UserOrderView frame= new UserOrderView();
+        order.setPayWithPoints(false);
         frame.initOrder(order);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);

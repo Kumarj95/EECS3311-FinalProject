@@ -105,8 +105,9 @@ public abstract  class   Order {
 		int index=0;
 		for(Movie movie:movies) {
 			if(movie.getId().equals(id)) {
-				movies.remove(index);
-                                return true;
+                                    orderPrice-=movie.getPrice();
+                                    movies.remove(index);
+                                                               return true;
 			}
 			index++;
 		}

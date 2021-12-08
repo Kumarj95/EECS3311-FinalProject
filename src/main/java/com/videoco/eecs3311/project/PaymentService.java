@@ -50,13 +50,26 @@ public class PaymentService {
 	public static boolean chargeUserLateFee(UserOrder order) {
 		if(!order.getDateDelivered().equals(LocalDate.MIN)) {
 			if(order.getDateDelivered().plusDays(14).isAfter(LocalDate.now())) {
-				SystemV s= SystemV.getInstance();
-				
+				double lateFee=calculateUserLateFee(order);
 				return true;
 			}
 		}
 		return false;
 	}
+        
+        public static double calculateUserLateFee(UserOrder order){
+            SystemV sys= SystemV.getInstance();
+            String userProvince= sys.getNormalUsersMap().get(order.getUserID()).getProvince();
+            double lateFee=0;
+            if(!userProvince.equals("Ontario")){
+                lateFee+=10;
+            }
+
+            for(Movie movie: order.getMovies()){
+                lateFee+=1;
+            }
+            return lateFee;
+        }
 
 
 

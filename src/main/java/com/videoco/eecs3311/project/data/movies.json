@@ -33,7 +33,7 @@
   "price": 50.99,
   "id": "93d9f951-1999-4b82-8947-e6454a6e5339",
   "title": "The First Movie",
-  "stock": 24,
+  "stock": 22,
   "movieInfo": {
    "actors": [
     "actor4",

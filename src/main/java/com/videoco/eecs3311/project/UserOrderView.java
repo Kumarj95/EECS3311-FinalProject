@@ -5,6 +5,7 @@
 package com.videoco.eecs3311.project;
 
 import java.awt.Cursor;
+import java.awt.event.WindowEvent;
 import java.util.UUID;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -39,7 +40,7 @@ public class UserOrderView extends javax.swing.JFrame {
            movies.setModel(tableModel);
            movies.getColumnModel().getColumn(0).setMinWidth(300);
            
-           if(!o.getOrderStatus().equals(OrderStatus.Creating)){
+           if(!order.getOrderStatus().equals(OrderStatus.Creating)){
                jButton1.setEnabled(false);
                jTextField2.setEditable(false);
                
@@ -48,6 +49,18 @@ public class UserOrderView extends javax.swing.JFrame {
                
                jTextField3.setEditable(false);
                jButton2.setEnabled(false);
+               
+               jTextField4.setEditable(false);
+               jTextField5.setEditable(false);
+               jButton3.setEnabled(false);
+               
+               if(order.getOrderStatus().equals(OrderStatus.Processed) ||order.getOrderStatus().equals(OrderStatus.Delivering) ){
+                jButton5.setEnabled(true);   
+               }else{
+                   jButton5.setEnabled(false);
+               }
+               jButton4.setEnabled(false);
+               
             }else{
                jButton1.setEnabled(true);
                jTextField2.setEditable(true);
@@ -56,9 +69,30 @@ public class UserOrderView extends javax.swing.JFrame {
                
                jTextField3.setEditable(true);
                jButton2.setEnabled(true);
+               jTextField4.setEditable(true);
+               jTextField5.setEditable(true);
+               jButton3.setEnabled(true);
+               jButton4.setEnabled(true);
+               jButton5.setEnabled(false);
+
                
            }
            jLabel5.setText(order.getOrderPrice()+"");
+           jCheckBox1.setSelected(order.isPayWithPoints());
+           
+           jTextField3.setText(order.getShippingAddress());
+           if(order.getPaymentInfo()!=null){
+           jTextField4.setText(order.getPaymentInfo().getBillingAddress());           
+           jTextField5.setText(order.getPaymentInfo().getCreditCardNumber());
+           }else{
+           jTextField4.setText("");           
+           jTextField5.setText("");
+               
+           }
+         
+           
+           
+                      
 
            
            
@@ -74,7 +108,62 @@ public class UserOrderView extends javax.swing.JFrame {
                String[] row= {movie.getId().toString()};
                tableModel.addRow(row);
            }
+           jTextField1.setText(order.getOrderStatus().toString());
+           
            movies.setModel(tableModel);
+          jLabel5.setText(order.getOrderPrice()+"");
+          jCheckBox1.setSelected(order.isPayWithPoints());
+           jTextField3.setText(order.getShippingAddress());
+           
+           if(order.getPaymentInfo()!=null){
+           jTextField4.setText(order.getPaymentInfo().getBillingAddress());           
+           jTextField5.setText(order.getPaymentInfo().getCreditCardNumber());
+           }else{
+           jTextField4.setText("");           
+           jTextField5.setText("");
+               
+           }
+                     if(!order.getOrderStatus().equals(OrderStatus.Creating)){
+               jButton1.setEnabled(false);
+               jTextField2.setEditable(false);
+               
+               jButton6.setEnabled(false);
+               jTextField6.setEditable(false);
+               
+               jTextField3.setEditable(false);
+               jButton2.setEnabled(false);
+               
+               jTextField4.setEditable(false);
+               jTextField5.setEditable(false);
+               jButton3.setEnabled(false);
+               
+               if(order.getOrderStatus().equals(OrderStatus.Processed) ||order.getOrderStatus().equals(OrderStatus.Delivering) ){
+                jButton5.setEnabled(true);   
+               }else{
+                   jButton5.setEnabled(false);
+               }
+               jButton4.setEnabled(false);
+               
+            }else{
+               jButton1.setEnabled(true);
+               jTextField2.setEditable(true);
+               jButton6.setEnabled(true);
+               jTextField6.setEditable(true);   
+               
+               jTextField3.setEditable(true);
+               jButton2.setEnabled(true);
+               jTextField4.setEditable(true);
+               jTextField5.setEditable(true);
+               jButton3.setEnabled(true);
+               jButton4.setEnabled(true);
+               jButton5.setEnabled(false);
+
+               
+           }
+ 
+          
+          
+           
         
     }
 
@@ -152,19 +241,24 @@ public class UserOrderView extends javax.swing.JFrame {
 
         jLabel6.setText("Shipping Address: ");
 
-        jTextField3.setText("jTextField3");
-
         jButton2.setText("Save Shipping");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jCheckBox1.setText("payWithPoints");
+        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox1ActionPerformed(evt);
+            }
+        });
 
         jLabel7.setText("Billing Address:");
 
-        jTextField4.setText("jTextField4");
-
         jLabel8.setText("Credit Card Number: ");
 
-        jTextField5.setText("jTextField");
         jTextField5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField5ActionPerformed(evt);
@@ -172,6 +266,11 @@ public class UserOrderView extends javax.swing.JFrame {
         });
 
         jButton3.setText("Set Payment Info");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setBackground(new java.awt.Color(102, 255, 102));
         jButton4.setText("Place Order");
@@ -182,11 +281,21 @@ public class UserOrderView extends javax.swing.JFrame {
                 jButton4MouseMoved(evt);
             }
         });
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setBackground(new java.awt.Color(255, 102, 102));
         jButton5.setText("Cancel Order");
         jButton5.setBorderPainted(false);
         jButton5.setOpaque(true);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jTextField6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -389,6 +498,64 @@ public class UserOrderView extends javax.swing.JFrame {
     private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField6ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        String shipping=jTextField3.getText();
+        if(shipping.isBlank()){
+            JOptionPane.showMessageDialog(this, "Please enter a shipping address!");                                                                   
+        }else{
+            order.setShippingAddress(shipping);
+            refreshTable();
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        String billing=jTextField4.getText();
+        String creditCard= jTextField5.getText();
+        if(billing.isBlank() || creditCard.isBlank()){
+            JOptionPane.showMessageDialog(this, "Please enter both a billing address and a shipping address!");                                                                   
+            
+        }else{
+            PaymentInfo info= new PaymentInfo(creditCard,billing);
+            order.setPaymentInfo(info);
+            refreshTable();
+            
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        if(order.getShippingAddress()==null || order.getPaymentInfo()==null || order.isPayWithPoints()==null){
+            JOptionPane.showMessageDialog(this, "Order is missing some fields!");                                                                   
+         }else{
+               if(order.placeOrder()){
+                   refreshTable();
+               }else{
+                   JOptionPane.showMessageDialog(this, "Invalid Order!");                                                                                      
+               }
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+        // TODO add your handling code here:
+        order.setPayWithPoints(jCheckBox1.isSelected());
+            refreshTable();
+        
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        boolean cancelOrder = order.cancelOrder();
+        if(cancelOrder){
+              JOptionPane.showMessageDialog(this, "Order Cancelled Successfully!!");                                                                                      
+         }else{
+              JOptionPane.showMessageDialog(this, "Could not cancel order");
+              this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+        }
+        
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
