@@ -74,25 +74,17 @@ public class NormalUser extends User {
 	}
 	
 	public boolean addMovieToOrder(Movie movie) {
-            if(movie.getStock()<=0){
-                return false;
+            if(orders.size()==0 || !orders.get(orders.size()-1).getOrderStatus().equals(OrderStatus.Creating)){
+                UserOrder userOrder= new UserOrder(UUID.randomUUID(),this);
+                if(userOrder.addToOrder(movie)){
+                    orders.add(userOrder);
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+                return orders.get(orders.size()-1).addToOrder(movie);
             }
-		if(orders.size()>0) {
-                    if(orders.get(orders.size()-1).getOrderStatus().equals(OrderStatus.Creating)){
-			orders.get(orders.size()-1).addToOrder(movie.getId());
-                        return true;
-                    }else{
-			UserOrder newOrder= new UserOrder(UUID.randomUUID(),this);
-			newOrder.addToOrder(movie.getId());
-			orders.add(newOrder);    
-                        return true;
-                    }
-		}else {
-			UserOrder newOrder= new UserOrder(UUID.randomUUID(),this);
-			newOrder.addToOrder(movie.getId());
-			orders.add(newOrder);
-                        return true;
-		}
 	}
 	
 	public Order getOrder(UUID orderID) {

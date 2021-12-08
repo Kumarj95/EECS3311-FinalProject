@@ -4,6 +4,8 @@
  */
 package com.videoco.eecs3311.project;
 import java.awt.CardLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
@@ -43,7 +45,6 @@ public class NormalUserScreen extends javax.swing.JFrame {
         HomeButton = new javax.swing.JButton();
         SearchButton = new javax.swing.JButton();
         ViewOrdersButton = new javax.swing.JButton();
-        CreateOrderButton = new javax.swing.JButton();
         ViewAndEditInfoButton = new javax.swing.JButton();
         Parent = new javax.swing.JPanel();
         SearchPanel = new javax.swing.JPanel();
@@ -52,11 +53,15 @@ public class NormalUserScreen extends javax.swing.JFrame {
         search = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         resultsTable = new javax.swing.JTable();
-        CreateOrderPanel = new javax.swing.JPanel();
         VandEInfoPanel = new javax.swing.JPanel();
         WelcomePanel = new javax.swing.JPanel();
         WelcomeLabel = new javax.swing.JLabel();
         WelcomeText = new javax.swing.JLabel();
+        ViewOrdersPanel = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        ordersTable = new javax.swing.JTable();
+        CreateOrder = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("NormalUserScreen");
@@ -84,16 +89,17 @@ public class NormalUserScreen extends javax.swing.JFrame {
         SearchButton.setBounds(10, 110, 170, 29);
 
         ViewOrdersButton.setText("View Orders");
+        ViewOrdersButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ViewOrdersButtonActionPerformed(evt);
+            }
+        });
         jPanel2.add(ViewOrdersButton);
         ViewOrdersButton.setBounds(10, 150, 170, 30);
 
-        CreateOrderButton.setText("Create Order");
-        jPanel2.add(CreateOrderButton);
-        CreateOrderButton.setBounds(10, 190, 170, 30);
-
         ViewAndEditInfoButton.setText("View/Edit Information");
         jPanel2.add(ViewAndEditInfoButton);
-        ViewAndEditInfoButton.setBounds(10, 230, 170, 29);
+        ViewAndEditInfoButton.setBounds(10, 200, 170, 29);
 
         Parent.setBackground(new java.awt.Color(255, 255, 255));
         Parent.setLayout(new java.awt.CardLayout());
@@ -170,19 +176,6 @@ public class NormalUserScreen extends javax.swing.JFrame {
 
         Parent.add(SearchPanel, "SearchPanel");
 
-        javax.swing.GroupLayout CreateOrderPanelLayout = new javax.swing.GroupLayout(CreateOrderPanel);
-        CreateOrderPanel.setLayout(CreateOrderPanelLayout);
-        CreateOrderPanelLayout.setHorizontalGroup(
-            CreateOrderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 538, Short.MAX_VALUE)
-        );
-        CreateOrderPanelLayout.setVerticalGroup(
-            CreateOrderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 660, Short.MAX_VALUE)
-        );
-
-        Parent.add(CreateOrderPanel, "card5");
-
         javax.swing.GroupLayout VandEInfoPanelLayout = new javax.swing.GroupLayout(VandEInfoPanel);
         VandEInfoPanel.setLayout(VandEInfoPanelLayout);
         VandEInfoPanelLayout.setHorizontalGroup(
@@ -227,6 +220,69 @@ public class NormalUserScreen extends javax.swing.JFrame {
         );
 
         Parent.add(WelcomePanel, "WelcomePanel");
+
+        ViewOrdersPanel.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel2.setText("Orders");
+
+        ordersTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        ordersTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ordersTableMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(ordersTable);
+
+        CreateOrder.setText("CreateOrder");
+        CreateOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CreateOrderActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout ViewOrdersPanelLayout = new javax.swing.GroupLayout(ViewOrdersPanel);
+        ViewOrdersPanel.setLayout(ViewOrdersPanelLayout);
+        ViewOrdersPanelLayout.setHorizontalGroup(
+            ViewOrdersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ViewOrdersPanelLayout.createSequentialGroup()
+                .addGroup(ViewOrdersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(ViewOrdersPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 526, Short.MAX_VALUE))
+                    .addGroup(ViewOrdersPanelLayout.createSequentialGroup()
+                        .addGroup(ViewOrdersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(ViewOrdersPanelLayout.createSequentialGroup()
+                                .addGap(218, 218, 218)
+                                .addComponent(jLabel2))
+                            .addGroup(ViewOrdersPanelLayout.createSequentialGroup()
+                                .addGap(181, 181, 181)
+                                .addComponent(CreateOrder)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        ViewOrdersPanelLayout.setVerticalGroup(
+            ViewOrdersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ViewOrdersPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 556, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(CreateOrder)
+                .addContainerGap(17, Short.MAX_VALUE))
+        );
+
+        Parent.add(ViewOrdersPanel, "ViewOrdersPanel");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -307,8 +363,76 @@ public class NormalUserScreen extends javax.swing.JFrame {
         frame.initUser(this.user);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
     }//GEN-LAST:event_resultsTableMouseClicked
+    private void updateOrdersTable(){
+        String [] col= {"OrderID","OrderStatus","Price","ShippingAddress","OrderDate"};
+        DefaultTableModel tableModel = new DefaultTableModel(col, 0);
+        for(UserOrder order: user.getOrders()){
+            String[] row={order.getOrderID().toString(),order.getOrderStatus().toString(), String.valueOf(order.getOrderPrice()),order.getShippingAddress(),order.getOrderDate().toString()};
+            tableModel.addRow(row);
+        }
+        ordersTable.setModel(tableModel);
+        
+    }
+    private void ViewOrdersButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewOrdersButtonActionPerformed
+        // TODO add your handling code here:
+        CardLayout card=(CardLayout)Parent.getLayout();
+        card.show(Parent, "ViewOrdersPanel");
+        String [] col= {"OrderID","OrderStatus","Price","ShippingAddress","OrderDate"};
+        DefaultTableModel tableModel = new DefaultTableModel(col, 0);
+        for(UserOrder order: user.getOrders()){
+            String[] row={order.getOrderID().toString(),order.getOrderStatus().toString(), String.valueOf(order.getOrderPrice()),order.getShippingAddress(),order.getOrderDate().toString()};
+            tableModel.addRow(row);
+        }
+        ordersTable.setModel(tableModel);
+        
+
+        
+    }//GEN-LAST:event_ViewOrdersButtonActionPerformed
+
+    private void ordersTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ordersTableMouseClicked
+        // TODO add your handling code here:
+        int index= ordersTable.getSelectedRow();
+        TableModel model= ordersTable.getModel();
+        String id= model.getValueAt(index,0).toString();
+        UserOrderView frame= new UserOrderView();
+        SystemV sys= SystemV.getInstance();
+        frame.setVisible(true);
+        UserOrder o=null;
+        for(UserOrder order: user.getOrders()){
+             if(order.getOrderID().toString().equals(id)){
+                o=order;
+                break;
+            }
+        }
+        frame.initOrder(o);
+        frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE); 
+        frame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                   updateOrdersTable();
+            }
+        });
+
+
+    }//GEN-LAST:event_ordersTableMouseClicked
+
+    private void CreateOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateOrderActionPerformed
+        // TODO add your handling code here:
+        UserOrder order= new UserOrder(UUID.randomUUID(),this.user);
+        this.user.addOrder(order);
+        updateOrdersTable();
+        UserOrderView frame= new UserOrderView();
+        frame.initOrder(order);
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        frame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                   updateOrdersTable();
+            }
+        });
+        
+        
+    }//GEN-LAST:event_CreateOrderActionPerformed
 
     /**
      * @param args the command line arguments
@@ -330,8 +454,7 @@ public class NormalUserScreen extends javax.swing.JFrame {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton CreateOrderButton;
-    private javax.swing.JPanel CreateOrderPanel;
+    private javax.swing.JButton CreateOrder;
     private javax.swing.JButton HomeButton;
     private javax.swing.JPanel Parent;
     private javax.swing.JTextField SearchBar;
@@ -340,12 +463,16 @@ public class NormalUserScreen extends javax.swing.JFrame {
     private javax.swing.JPanel VandEInfoPanel;
     private javax.swing.JButton ViewAndEditInfoButton;
     private javax.swing.JButton ViewOrdersButton;
+    private javax.swing.JPanel ViewOrdersPanel;
     private javax.swing.JLabel WelcomeLabel;
     private javax.swing.JPanel WelcomePanel;
     private javax.swing.JLabel WelcomeText;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable ordersTable;
     private javax.swing.JTable resultsTable;
     private javax.swing.JButton search;
     // End of variables declaration//GEN-END:variables

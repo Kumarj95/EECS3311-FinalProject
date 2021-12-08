@@ -1,4 +1,4 @@
-
+package com.videoco.eecs3311.project.tests;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;

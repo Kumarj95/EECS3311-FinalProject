@@ -222,8 +222,10 @@ public class UserMovieFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(user!=null){
             if(!user.addMovieToOrder(movie)){
-                JOptionPane.showMessageDialog(this, "Movie is out of stock!");                   
-                 }
+                JOptionPane.showMessageDialog(this, "Either Movie is already in order or movie is out of stock!");                   
+              }else{
+                JOptionPane.showMessageDialog(this, "Success!");                   
+               }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

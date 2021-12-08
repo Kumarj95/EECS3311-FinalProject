@@ -40,7 +40,7 @@ public abstract  class   Order {
 	}
 	
 	public boolean checkValidOrder() {
-		if(paymentInfo==null || !paymentInfo.isValid() || movies.size()<=0) {
+		if(paymentInfo==null || !paymentInfo.isValid() || movies.size()<=0 || shippingAddress.isBlank()) {
 			return false;
 		}
                 for(Movie movie:movies){
@@ -69,6 +69,7 @@ public abstract  class   Order {
 			for(Movie movie: movies) {
 				if(movie.getId().equals(id)) {
 					inOrder=true;
+                                        return false;
 				}
 			}
 			if(!inOrder && mov.getStock()>0) {
@@ -88,6 +89,7 @@ public abstract  class   Order {
 		for(Movie movie: movies) {
 			if(movie.getId().equals(id.getId())) {
 				inOrder=true;
+                                return false;
 			}
 		}
 		if(!inOrder && id.getStock()>0) {
@@ -99,15 +101,16 @@ public abstract  class   Order {
 	}
 
 	
-	public void deleteFromOrder(UUID id) {
+	public boolean deleteFromOrder(UUID id) {
 		int index=0;
 		for(Movie movie:movies) {
 			if(movie.getId().equals(id)) {
 				movies.remove(index);
-				break;
+                                return true;
 			}
 			index++;
 		}
+                return false;
 	}
 	
 	
