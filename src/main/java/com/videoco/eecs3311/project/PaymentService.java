@@ -14,8 +14,11 @@ public class PaymentService {
 			}
 			return false;
 		}else {
+			NormalUser a=s.getNormalUsersMap().get(order.getUserID());                    
 			if(order.getPaymentInfo().isValid()) {
-				
+				a.setLoyaltyPoints(a.getLoyaltyPoints()+1);
+				s.updateNormalUser(order.getUserID(), a);
+                                
 				// do transaction
 				return true;
 			}
@@ -70,6 +73,31 @@ public class PaymentService {
             }
             return lateFee;
         }
+        
+    	public static boolean chargePhoneUserLateFee(PhoneOrder order) {
+    		if(!order.getDateDelivered().equals(LocalDate.MIN)) {
+    			if(order.getDateDelivered().plusDays(14).isAfter(LocalDate.now())) {
+    				double lateFee=calculatePhoneUserLateFee(order);
+    				// do third party stuff
+    				return true;
+    			}
+    		}
+    		return false;
+    	}
+    	
+    	public static double calculatePhoneUserLateFee(PhoneOrder order) {
+    		double d=0;
+    		for(Movie movie: order.getMovies()) {
+    			d+=1;
+    		}
+    		if(!order.getShippingAddress().contains("Ontario")) {
+    			d+=9.99;
+    		}
+    		//assume phone users dont live in toronto
+    		
+    		return d;
+    	}
+        
 
 
 

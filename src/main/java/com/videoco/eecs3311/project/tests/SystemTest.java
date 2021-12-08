@@ -225,7 +225,7 @@ public class SystemTest {
 		assertTrue(sys.removeNormalUser(user.getUserID()));
 	}
 
-	//
+	//req14
 	@Test
 	public void test12() {
 		NormalUser user= new NormalUser(UUID.randomUUID(), "NewNormalUser","NewPassword","Normalemail@gmail.com","Ontario");
@@ -235,6 +235,8 @@ public class SystemTest {
 		assertEquals(user.getEmail(), sys.getNormalUsersMap().get(user.getUserID()).getEmail());
 		assertTrue(sys.removeNormalUser(user.getUserID()));
 	}
+	
+	
 
 
 

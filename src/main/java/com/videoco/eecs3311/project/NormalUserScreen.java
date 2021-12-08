@@ -9,6 +9,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -54,6 +55,17 @@ public class NormalUserScreen extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         resultsTable = new javax.swing.JTable();
         VandEInfoPanel = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jTextField4 = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         WelcomePanel = new javax.swing.JPanel();
         WelcomeLabel = new javax.swing.JLabel();
         WelcomeText = new javax.swing.JLabel();
@@ -98,6 +110,11 @@ public class NormalUserScreen extends javax.swing.JFrame {
         ViewOrdersButton.setBounds(10, 150, 170, 30);
 
         ViewAndEditInfoButton.setText("View/Edit Information");
+        ViewAndEditInfoButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ViewAndEditInfoButtonActionPerformed(evt);
+            }
+        });
         jPanel2.add(ViewAndEditInfoButton);
         ViewAndEditInfoButton.setBounds(10, 200, 170, 29);
 
@@ -176,18 +193,114 @@ public class NormalUserScreen extends javax.swing.JFrame {
 
         Parent.add(SearchPanel, "SearchPanel");
 
+        VandEInfoPanel.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel3.setText("Username:");
+
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("Password:");
+
+        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField2ActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("Email:");
+
+        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField3ActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setText("Province:");
+
+        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField4ActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setText("Loyalty Points:");
+
+        jLabel8.setText("jLabel8");
+
+        jButton1.setText("Update");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout VandEInfoPanelLayout = new javax.swing.GroupLayout(VandEInfoPanel);
         VandEInfoPanel.setLayout(VandEInfoPanelLayout);
         VandEInfoPanelLayout.setHorizontalGroup(
             VandEInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 538, Short.MAX_VALUE)
+            .addGroup(VandEInfoPanelLayout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addGroup(VandEInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(VandEInfoPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addGap(26, 26, 26)
+                        .addComponent(jLabel8))
+                    .addComponent(jLabel6)
+                    .addGroup(VandEInfoPanelLayout.createSequentialGroup()
+                        .addGroup(VandEInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(VandEInfoPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(18, 18, 18)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(VandEInfoPanelLayout.createSequentialGroup()
+                                .addGroup(VandEInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5))
+                                .addGap(18, 18, 18)
+                                .addGroup(VandEInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextField3)
+                                    .addComponent(jTextField2)
+                                    .addComponent(jTextField4))))
+                        .addGap(96, 96, 96)
+                        .addComponent(jButton1)))
+                .addContainerGap(149, Short.MAX_VALUE))
         );
         VandEInfoPanelLayout.setVerticalGroup(
             VandEInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 660, Short.MAX_VALUE)
+            .addGroup(VandEInfoPanelLayout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addGroup(VandEInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(VandEInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(VandEInfoPanelLayout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addGroup(VandEInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(VandEInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(VandEInfoPanelLayout.createSequentialGroup()
+                        .addGap(45, 45, 45)
+                        .addComponent(jButton1)))
+                .addGap(18, 18, 18)
+                .addGroup(VandEInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(41, 41, 41)
+                .addGroup(VandEInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel8))
+                .addContainerGap(385, Short.MAX_VALUE))
         );
 
-        Parent.add(VandEInfoPanel, "card6");
+        Parent.add(VandEInfoPanel, "viewAndEdit");
 
         WelcomePanel.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -435,6 +548,53 @@ public class NormalUserScreen extends javax.swing.JFrame {
         
     }//GEN-LAST:event_CreateOrderActionPerformed
 
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField3ActionPerformed
+
+    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField4ActionPerformed
+
+    private void ViewAndEditInfoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewAndEditInfoButtonActionPerformed
+        // TODO add your handling code here:
+        CardLayout card=(CardLayout)Parent.getLayout();
+        card.show(Parent, "viewAndEdit");
+        updateInfo();
+        
+
+        
+    }//GEN-LAST:event_ViewAndEditInfoButtonActionPerformed
+    private void updateInfo(){
+        jTextField1.setText(user.getUsername());
+        jTextField2.setText(user.getPassword());
+        jTextField3.setText(user.getEmail());
+        jTextField4.setText(user.getProvince());
+        jLabel8.setText(user.getLoyaltyPoints()+"");        
+    }
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        if(jTextField1.getText().isBlank() ||jTextField2.getText().isBlank()  || jTextField3.getText().isBlank() || jTextField4.getText().isBlank() ){
+              JOptionPane.showMessageDialog(this, "Not all fields are filled!");                                                       
+        }else{
+            user.setUsername(jTextField1.getText());
+            user.setPassword(jTextField2.getText());
+            user.setEmail(jTextField3.getText());
+            user.setProvince(jTextField4.getText());
+            updateInfo();
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -468,11 +628,22 @@ public class NormalUserScreen extends javax.swing.JFrame {
     private javax.swing.JLabel WelcomeLabel;
     private javax.swing.JPanel WelcomePanel;
     private javax.swing.JLabel WelcomeText;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
     private javax.swing.JTable ordersTable;
     private javax.swing.JTable resultsTable;
     private javax.swing.JButton search;

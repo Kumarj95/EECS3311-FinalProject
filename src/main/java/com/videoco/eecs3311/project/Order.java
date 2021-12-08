@@ -40,7 +40,7 @@ public abstract  class   Order {
 	}
 	
 	public boolean checkValidOrder() {
-		if(paymentInfo==null || !paymentInfo.isValid() || movies.size()<=0 || shippingAddress.isBlank()) {
+		if(paymentInfo==null || paymentInfo.getBillingAddress().isBlank()|| paymentInfo.getCreditCardNumber().isBlank() || movies.size()<=0 || shippingAddress.isBlank()) {
 			return false;
 		}
                 for(Movie movie:movies){

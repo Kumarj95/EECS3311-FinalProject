@@ -89,6 +89,12 @@ public class UserOrderView extends javax.swing.JFrame {
            jTextField5.setText("");
                
            }
+           if(order.getOrderStatus().equals(OrderStatus.Delivered) || order.getOrderStatus().equals(OrderStatus.Overdue)){
+               ReturnOrder.setEnabled(true);
+           }else{
+               ReturnOrder.setEnabled(false);
+               
+           }
          
            
            
@@ -112,7 +118,11 @@ public class UserOrderView extends javax.swing.JFrame {
            
            movies.setModel(tableModel);
           jLabel5.setText(order.getOrderPrice()+"");
-          jCheckBox1.setSelected(order.isPayWithPoints());
+          if(order.isPayWithPoints()==false){
+            jCheckBox1.setSelected(false);             
+          }else{
+            jCheckBox1.setSelected(order.isPayWithPoints());
+          }
            jTextField3.setText(order.getShippingAddress());
            
            if(order.getPaymentInfo()!=null){
@@ -160,6 +170,13 @@ public class UserOrderView extends javax.swing.JFrame {
 
                
            }
+           if(order.getOrderStatus().equals(OrderStatus.Delivered) || order.getOrderStatus().equals(OrderStatus.Overdue)){
+               ReturnOrder.setEnabled(true);
+           }else{
+               ReturnOrder.setEnabled(false);
+               
+           }
+                     
  
           
           
@@ -199,6 +216,7 @@ public class UserOrderView extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jTextField6 = new javax.swing.JTextField();
         jButton6 = new javax.swing.JButton();
+        ReturnOrder = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -310,6 +328,13 @@ public class UserOrderView extends javax.swing.JFrame {
             }
         });
 
+        ReturnOrder.setText("Return");
+        ReturnOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ReturnOrderActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -320,16 +345,21 @@ public class UserOrderView extends javax.swing.JFrame {
                 .addComponent(jButton2)
                 .addGap(224, 224, 224))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(27, 27, 27)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel1)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel1))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(ReturnOrder)
+                                .addGap(61, 61, 61))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(210, 210, 210)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -378,12 +408,17 @@ public class UserOrderView extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addComponent(ReturnOrder)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -527,9 +562,10 @@ public class UserOrderView extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        if(order.getShippingAddress()==null || order.getPaymentInfo()==null || order.isPayWithPoints()==null){
+        if(order.getShippingAddress()==null || order.getPaymentInfo()==null){
             JOptionPane.showMessageDialog(this, "Order is missing some fields!");                                                                   
          }else{
+            order.setPayWithPoints(jCheckBox1.isSelected());
                if(order.placeOrder()){
                    refreshTable();
                }else{
@@ -540,8 +576,6 @@ public class UserOrderView extends javax.swing.JFrame {
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
         // TODO add your handling code here:
-        order.setPayWithPoints(jCheckBox1.isSelected());
-            refreshTable();
         
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
@@ -556,6 +590,16 @@ public class UserOrderView extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void ReturnOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReturnOrderActionPerformed
+        // TODO add your handling code here:
+        if(order.returnOrder()){
+              JOptionPane.showMessageDialog(this, "Order Returned!!");                                                                                      
+        }else{
+            JOptionPane.showMessageDialog(this, "Return Failed!!");                                                                                      
+        }
+        
+    }//GEN-LAST:event_ReturnOrderActionPerformed
 
     /**
      * @param args the command line arguments
@@ -593,6 +637,7 @@ public class UserOrderView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ReturnOrder;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;

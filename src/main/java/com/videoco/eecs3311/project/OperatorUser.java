@@ -38,6 +38,39 @@ public class OperatorUser extends User {
 			orders.add(norder);
 		}
 	}
+	
+	public PhoneOrder getOrder(UUID id) {
+		for(PhoneOrder order:orders) {
+			if(order.getOrderID().equals(id)) {
+				return order;
+			}
+		}
+		return null;
+	}
+	
+	public PhoneOrder getOrderGeneral(UUID id) {
+		SystemV sys= SystemV.getInstance();
+		ArrayList<PhoneOrder> phoneOrders=sys.getPhoneOrders();
+		for(PhoneOrder phoneOrder:phoneOrders) {
+			if(phoneOrder.getOrderID().equals(id)) {
+				return phoneOrder;
+			}
+		}
+		return null;
+	}
+    public ArrayList<Movie> search(ArrayList<String> s){
+        SystemV sys= SystemV.getInstance();
+        ArrayList<Movie> ret= new ArrayList<Movie>();
+        for(Movie movie:sys.getMovies()) {
+        	if(s.contains(movie.getTitle())) {
+        		ret.add(movie);
+        	}
+        }
+        return ret;
+    }
+    
+
+
 
 
 }

@@ -3,7 +3,7 @@
   "price": 25.99,
   "id": "6b9f2324-2442-4992-931a-ede3eeaecabf",
   "title": "Hello World",
-  "stock": 5,
+  "stock": 4,
   "movieInfo": {
    "actors": [
     "actor1",
@@ -33,7 +33,7 @@
   "price": 50.99,
   "id": "93d9f951-1999-4b82-8947-e6454a6e5339",
   "title": "The First Movie",
-  "stock": 22,
+  "stock": 17,
   "movieInfo": {
    "actors": [
     "actor4",

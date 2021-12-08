@@ -217,7 +217,8 @@ public class RegisterFrame extends javax.swing.JFrame {
                 bool=sys.registerUser(new AdminUser(id,user.getText(),pass.getText(),email.getText()));
             }else if(NormalUser.isSelected()){
                 bool=sys.registerUser(new NormalUser(id,user.getText(),pass.getText(),email.getText()));
-                
+                NormalUserScreen frame= new NormalUserScreen(sys.getNormalUsersMap().get(id));
+                frame.setVisible(true);
             }else if(OperatorUser.isSelected()){
                bool= sys.registerUser(new OperatorUser(id,user.getText(),pass.getText(),email.getText()));
                 

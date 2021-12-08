@@ -9,6 +9,9 @@ public class UserOrder extends Order {
 	private Boolean payWithPoints;
  
 	public Boolean isPayWithPoints() {
+            if(payWithPoints==null){
+                return false;
+            }
 		return payWithPoints;
 	}
 
@@ -35,17 +38,24 @@ public class UserOrder extends Order {
 	}
 	public boolean placeOrder() {
 		SystemV s= SystemV.getInstance();
-		if((payWithPoints &&user.getLoyaltyPoints()<10) || (!getPaymentInfo().isValid()) ) {
-			return false;
-		}else {
 		return s.addUserOrder(this);
-		}
 	}
 	
 	public boolean cancelOrder() {
 		SystemV sys= SystemV.getInstance();
 		return sys.cancelUserOrder(getOrderID());
 	}
+        
+       public boolean returnOrder(){
+            if(this.getOrderStatus().equals(OrderStatus.Delivered) || this.getOrderStatus().equals(OrderStatus.Overdue)){
+                this.setOrderStatus(OrderStatus.Returned);
+                SystemV sys= SystemV.getInstance();
+                sys.updateUserOrderStatus(this, OrderStatus.Returned);
+                return true;
+                }else{
+                return false;
+            }
+        }
 	
 	
 //	@Override

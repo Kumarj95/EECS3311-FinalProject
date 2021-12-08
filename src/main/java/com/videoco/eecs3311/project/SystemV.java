@@ -253,22 +253,135 @@ public class SystemV {
 				HashMap<UUID, LocalDate> res = DeliveryService.checkIfDelivered();
 //				System.out.println(res);
 				updateOrdersWithDeliveryDates(res);
+				findAndUpdateUserOverdue();
+				findAndUpdatePhoneOverdue();
 			}
 		}, 30, 5, TimeUnit.SECONDS);
 
 	}
-        
-        public ArrayList<Movie> getMovies(){
-            ArrayList<Movie> ret = new ArrayList<Movie>();
-            
-            for(Entry<UUID,Movie> entry:movies.entrySet()){
-                ret.add(entry.getValue());
-            }
-            return ret;
-        }
-        
-        
-        public void findOverDue(){
+
+	public ArrayList<Movie> getMovies() {
+		ArrayList<Movie> ret = new ArrayList<Movie>();
+
+		for (Entry<UUID, Movie> entry : movies.entrySet()) {
+			ret.add(entry.getValue());
+		}
+		return ret;
+	}
+
+	@SuppressWarnings("unchecked")
+	public void findAndUpdateUserOverdue() {
+		FileReader reader2;
+		FileWriter writer;
+		try {
+			JSONParser jsonParser = new JSONParser();
+			reader2 = new FileReader(System.getProperty("user.dir") + filepath + "userOrders.json");
+			Object obj = jsonParser.parse(reader2);
+			JSONArray userOrderList = (JSONArray) obj;
+//    			System.out.println(userOrderList);
+
+			for (Object obj1 : userOrderList) {
+				JSONObject ob = (JSONObject) obj1;
+				String status = ob.get("orderStatus").toString();
+				OrderStatus orderStatus;
+				try {
+					orderStatus = OrderStatus.valueOf(status);
+				} catch (IllegalArgumentException e) {
+					orderStatus = OrderStatus.Delivering;
+				}
+				if (orderStatus.equals(OrderStatus.Delivered)) {
+					LocalDate deliveryDate = LocalDate.parse(ob.get("dateDelivered").toString());
+					LocalDate now = LocalDate.now();
+					if (now.isEqual(deliveryDate.plusDays(14)) || now.isAfter(deliveryDate.plusDays(14))) {
+						ob.put("orderStatus", "Overdue");
+						userOrders.get(UUID.fromString(ob.get("orderID").toString()))
+								.setOrderStatus(OrderStatus.Overdue);
+						PaymentService.chargeUserLateFee(userOrders.get(UUID.fromString(ob.get("orderID").toString())));
+
+					}
+				}
+
+			}
+
+			reader2.close();
+			writer = new FileWriter(System.getProperty("user.dir") + filepath + "userOrders.json", false);
+			writer.write(formatJSONStr(userOrderList.toJSONString(), 1));
+			writer.flush();
+			writer.close();
+
+		} catch (IOException | ParseException e) {
+
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	@SuppressWarnings("unchecked")
+	public void findAndUpdatePhoneOverdue() {
+		FileReader reader2;
+		FileWriter writer;
+		try {
+			JSONParser jsonParser = new JSONParser();
+			reader2 = new FileReader(System.getProperty("user.dir") + filepath + "phoneOrders.json");
+			Object obj = jsonParser.parse(reader2);
+			JSONArray userOrderList = (JSONArray) obj;
+//    			System.out.println(userOrderList);
+
+			for (Object obj1 : userOrderList) {
+				JSONObject ob = (JSONObject) obj1;
+				String status = ob.get("orderStatus").toString();
+				OrderStatus orderStatus;
+				try {
+					orderStatus = OrderStatus.valueOf(status);
+				} catch (IllegalArgumentException e) {
+					orderStatus = OrderStatus.Delivering;
+				}
+				if (orderStatus.equals(OrderStatus.Delivered)) {
+					LocalDate deliveryDate = LocalDate.parse(ob.get("dateDelivered").toString());
+					LocalDate now = LocalDate.now();
+					if (now.isEqual(deliveryDate.plusDays(14)) || now.isAfter(deliveryDate.plusDays(14))) {
+						ob.put("orderStatus", "Overdue");
+						phoneOrders.get(UUID.fromString(ob.get("orderID").toString()))
+								.setOrderStatus(OrderStatus.Overdue);
+						PaymentService
+								.chargePhoneUserLateFee(phoneOrders.get(UUID.fromString(ob.get("orderID").toString())));
+					}
+				}
+
+			}
+
+			reader2.close();
+			writer = new FileWriter(System.getProperty("user.dir") + filepath + "phoneOrders.json", false);
+			writer.write(formatJSONStr(userOrderList.toJSONString(), 1));
+			writer.flush();
+			writer.close();
+
+		} catch (IOException | ParseException e) {
+
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+        public boolean isValidNewUser(User register){
+		HashMap<UserType, ArrayList<? extends User>> users = getUsers();
+		for (Entry<UserType, ArrayList<? extends User>> entry : users.entrySet()) {
+			ArrayList<? extends User> userL = entry.getValue();
+			for (User user : userL) {
+				if (user.getUsername().equals(register.getUsername()) || user.getUserID().equals(register.getUserID())
+						|| user.getEmail().equals(register.getEmail())) {
+					return false;
+				}
+			}  
+                }
+            return true;
         }
 
 	@SuppressWarnings("unchecked")
@@ -530,6 +643,88 @@ public class SystemV {
 			return false;
 		}
 	}
+        
+        @SuppressWarnings("unchecked")
+		public void updateUserOrderStatus(UserOrder order, OrderStatus status){
+            userOrders.get(order.getOrderID()).setOrderStatus(status);
+            FileReader reader2;
+            FileWriter writer;
+    			try {
+        			JSONParser jsonParser = new JSONParser();    				
+					reader2 = new FileReader(System.getProperty("user.dir") + filepath + "userOrders.json");
+	    			Object obj = jsonParser.parse(reader2);
+	    			JSONArray userOrderList = (JSONArray) obj;
+	    			for (Object obj1 : userOrderList) {
+	    				JSONObject ob = (JSONObject) obj1;
+	    				UUID id = UUID.fromString(ob.get("orderID").toString());
+	    				if(id.equals(order.getOrderID())) {
+	    					ob.put("orderStatus", status.toString());
+	    				}
+	    			}
+	    			
+	    			reader2.close();
+					 writer = new FileWriter(System.getProperty("user.dir") + filepath + "userOrders.json",
+							false);
+					writer.write(formatJSONStr(userOrderList.toJSONString(), 1));
+					writer.flush();
+					writer.close();
+
+	    			
+
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    		
+            
+        }
+        @SuppressWarnings("unchecked")
+		public void updatePhoneOrderStatus(PhoneOrder order, OrderStatus status){
+            phoneOrders.get(order.getOrderID()).setOrderStatus(status);
+            FileReader reader2;
+            FileWriter writer;
+    			try {
+        			JSONParser jsonParser = new JSONParser();    				
+					reader2 = new FileReader(System.getProperty("user.dir") + filepath + "phoneOrders.json");
+	    			Object obj = jsonParser.parse(reader2);
+	    			JSONArray userOrderList = (JSONArray) obj;
+	    			for (Object obj1 : userOrderList) {
+	    				JSONObject ob = (JSONObject) obj1;
+	    				UUID id = UUID.fromString(ob.get("orderID").toString());
+	    				if(id.equals(order.getOrderID())) {
+	    					ob.put("orderStatus", status.toString());
+	    				}
+	    			}
+	    			
+	    			reader2.close();
+					 writer = new FileWriter(System.getProperty("user.dir") + filepath + "phoneOrders.json",
+							false);
+					writer.write(formatJSONStr(userOrderList.toJSONString(), 1));
+					writer.flush();
+					writer.close();
+	    			
+
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    		
+            
+        }
+
+        
 
 	public synchronized boolean cancelUserOrder(UUID orderID) {
 
@@ -566,7 +761,8 @@ public class SystemV {
 							false);
 					writer.write(formatJSONStr(orderList.toJSONString(), 1));
 					writer.flush();
-					normalUsers.get(userOrders.get(orderID).getUserID()).cancelOrder(orderID);;
+					normalUsers.get(userOrders.get(orderID).getUserID()).cancelOrder(orderID);
+					;
 					userOrders.remove(orderID);
 					writer.close();
 					DeliveryService.removeFromDeliveries(orderID);
@@ -600,36 +796,36 @@ public class SystemV {
 		if (isOrder) {
 			UserOrder order = userOrders.get(orderID);
 			if (order.getOrderStatus() != OrderStatus.Delivered) {
-			
-			try {
-				JSONParser jsonParser = new JSONParser();
-				FileReader reader = new FileReader(System.getProperty("user.dir") + filepath + "phoneOrders.json");
-				Object obj = jsonParser.parse(reader);
-				JSONArray orderList = (JSONArray) obj;
-				int i = 0;
-				for (Object ob : orderList) {
-					JSONObject obj1 = (JSONObject) ob;
-					if (obj1.get("orderID").toString().equals(orderID.toString())) {
-						break;
-					}
-					i++;
-				}
-				for (Movie movie : order.getMovies()) {
-					changeMovieStock(movie.getId(), 1);
-				}
-				orderList.remove(i);
-				FileWriter writer = new FileWriter(System.getProperty("user.dir") + filepath + "phoneOrders.json",
-						false);
-				writer.write(formatJSONStr(orderList.toJSONString(), 1));
-				writer.flush();
-				userOrders.remove(orderID);
 
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+				try {
+					JSONParser jsonParser = new JSONParser();
+					FileReader reader = new FileReader(System.getProperty("user.dir") + filepath + "phoneOrders.json");
+					Object obj = jsonParser.parse(reader);
+					JSONArray orderList = (JSONArray) obj;
+					int i = 0;
+					for (Object ob : orderList) {
+						JSONObject obj1 = (JSONObject) ob;
+						if (obj1.get("orderID").toString().equals(orderID.toString())) {
+							break;
+						}
+						i++;
+					}
+					for (Movie movie : order.getMovies()) {
+						changeMovieStock(movie.getId(), 1);
+					}
+					orderList.remove(i);
+					FileWriter writer = new FileWriter(System.getProperty("user.dir") + filepath + "phoneOrders.json",
+							false);
+					writer.write(formatJSONStr(orderList.toJSONString(), 1));
+					writer.flush();
+					userOrders.remove(orderID);
+
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 
@@ -743,6 +939,14 @@ public class SystemV {
 							obj1.put("orderStatus", OrderStatus.Delivering.toString());
 						}
 					}
+					if (PaymentService.handlePhoneUserOrder(order)) {
+						DeliveryService.addNewDeliveryToWarehouse(order);
+					} else {
+						order.setOrderStatus(OrderStatus.Creating);
+						
+						return false;
+					}
+
 
 //					System.out.println(orderList);
 
@@ -773,6 +977,7 @@ public class SystemV {
 
 	@SuppressWarnings("unchecked")
 	public synchronized boolean addUserOrder(UserOrder order) {
+		
 		if (order.checkValidOrder()) {
 			boolean isUnique = true;
 			for (UUID id : userOrders.keySet()) {
@@ -781,8 +986,12 @@ public class SystemV {
 				}
 			}
 			if (isUnique && order.getOrderStatus().equals(OrderStatus.Creating)) {
-				order.setOrderStatus(OrderStatus.Processed);
 				userOrders.put(order.getOrderID(), order);
+				if (!PaymentService.handleNormalUserOrder(order)) {
+					userOrders.remove(order.getOrderID());
+					return false;
+				}
+				order.setOrderStatus(OrderStatus.Processed);				
 				try {
 					JSONParser jsonParser = new JSONParser();
 					FileReader reader = new FileReader(System.getProperty("user.dir") + filepath + "userOrders.json");
@@ -814,16 +1023,14 @@ public class SystemV {
 					JSONObject orderJSONM = new JSONObject(orderJSON);
 //				System.out.println(orderJSONM);
 					orderList.add(orderJSONM);
+						DeliveryService.addNewDeliveryToWarehouse(order);
+					
+					
 
 					FileWriter writer = new FileWriter(System.getProperty("user.dir") + filepath + "userOrders.json",
 							false);
 					writer.write(formatJSONStr(orderList.toJSONString(), 1));
 					writer.flush();
-                                        if(PaymentService.handleNormalUserOrder(order)){
-                                            DeliveryService.addNewDeliveryToWarehouse(order);
-                                        }else{
-                                            return false;
-                                        }
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -1193,8 +1400,8 @@ public class SystemV {
 		}
 		return INSTANCE;
 	}
-        
-        public ArrayList<OperatorUser> getOperatorUsers() {
+
+	public ArrayList<OperatorUser> getOperatorUsers() {
 		ArrayList<OperatorUser> nr = new ArrayList<OperatorUser>();
 		for (Entry<UUID, OperatorUser> user : operatorUsers.entrySet()) {
 			nr.add(user.getValue());
@@ -1202,29 +1409,27 @@ public class SystemV {
 		return nr;
 	}
 
-
 	public User validateUser(String username, String password) {
-                User res = null;
-                for(NormalUser user: this.getNormalUsers()){
-                    if(user.getPassword().equals(password) && user.getUsername().equals(username)){
-                        res=user;
-                        return res;
-                    }
-                }
-                  for(OperatorUser user: this.getOperatorUsers()){
-                    if(user.getPassword().equals(password) && user.getUsername().equals(username)){
-                        res=user;
-                        return res;
-                    }
-                }
-                for(AdminUser user: this.getAdminUsers()){
-                    if(user.getPassword().equals(password) && user.getUsername().equals(username)){
-                        res=user;
-                        return res;
-                    }
-                }
-                  
-                
+		User res = null;
+		for (NormalUser user : this.getNormalUsers()) {
+			if (user.getPassword().equals(password) && user.getUsername().equals(username)) {
+				res = user;
+				return res;
+			}
+		}
+		for (OperatorUser user : this.getOperatorUsers()) {
+			if (user.getPassword().equals(password) && user.getUsername().equals(username)) {
+				res = user;
+				return res;
+			}
+		}
+		for (AdminUser user : this.getAdminUsers()) {
+			if (user.getPassword().equals(password) && user.getUsername().equals(username)) {
+				res = user;
+				return res;
+			}
+		}
+
 		return res;
 
 	}
@@ -1368,7 +1573,6 @@ public class SystemV {
 			return false;
 		}
 	}
-
 
 	@SuppressWarnings("unchecked")
 	public boolean registerOperator(OperatorUser user) {

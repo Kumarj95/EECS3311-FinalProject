@@ -33,5 +33,16 @@ public class  PhoneOrder  extends Order{
 		SystemV sys= SystemV.getInstance();
 		return sys.cancelPhoneOrder(getOrderID());
 	}
+    public boolean returnOrder(){
+        if(this.getOrderStatus().equals(OrderStatus.Delivered) || this.getOrderStatus().equals(OrderStatus.Overdue)){
+            this.setOrderStatus(OrderStatus.Returned);
+            SystemV sys= SystemV.getInstance();
+            sys.updatePhoneOrderStatus(this, OrderStatus.Returned);
+            return true;
+            }else{
+            return false;
+        }
+    }
+	
 
 }

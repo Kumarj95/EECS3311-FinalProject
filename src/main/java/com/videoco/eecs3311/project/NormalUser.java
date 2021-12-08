@@ -61,6 +61,9 @@ public class NormalUser extends User {
 	}
 	public void setProvince(String province) {
 		this.province = province;
+            SystemV sys= SystemV.getInstance();
+              sys.updateNormalUser(this.getUserID(), this);             
+                
 	}
 	public int getLoyaltyPoints() {
 		return loyaltyPoints;
