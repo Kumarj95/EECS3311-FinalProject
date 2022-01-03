@@ -162,7 +162,7 @@ public class SystemTest {
 				"password", "adminemail@gmail.com");
 		assertFalse(sys.removeOperatorUser(user.getUserID()));
 		assertFalse(sys.registerUser(user));
-		NormalUser user2= new NormalUser(UUID.fromString("cfd62330-8c3c-426d-a0b5-198970237182"),"uniqueuser","uniquepass","jha.baller@gmail.com");
+		NormalUser user2= new NormalUser(UUID.fromString("cfd62330-8c3c-426d-a0b5-198970237182"),"uniqueuser","uniquepass","jha.baller2@gmail.com");
 		assertFalse(sys.registerUser(user2));
 	}
 	 
@@ -401,7 +401,7 @@ public class SystemTest {
 		ArrayList<Movie> movies=sys.getMovies();
 		assertEquals(user.search(),movies);
 	}
-	//req3
+	//req3 && req14
 	@Test
 	public void test20() {
 		NormalUser user= sys.getNormalUsers().get(0);
@@ -417,6 +417,7 @@ public class SystemTest {
 		for(int i=0; i<searchRes.size();i++) {
 			assertEquals(searchRes.get(i).getId(),search.get(i).getId());
 		}
+		 user.setUsername("Baller2");
 	}
 	// req3
 	@Test
@@ -593,6 +594,66 @@ public class SystemTest {
 		
 		
 	}
+	@Test
+	public void test28() {
+		NormalUser user= new NormalUser(UUID.randomUUID(), "NewNormalUser","NewPassword","Normalemail@gmail.com","Ontario");
+		assertTrue(sys.registerUser(user));
+		ArrayList<Movie> movies= sys.getMovies();
+		int i=0;
+		do {
+			i=new Random().nextInt(movies.size());
+		}while(i<0 || i>=movies.size());
+		Movie random = movies.get(i);
+		
+		user.addMovieToOrder(random);
+		UserOrder order= user.getOrders().get(0);
+		order.setOrderDate(LocalDate.now().minusDays(10));
+		order.setPayWithPoints(false);
+		order.setPaymentInfo(new PaymentInfo("4539307898619904","145 address way"));
+		order.setShippingAddress("145 address way");
+		assertEquals(OrderStatus.Creating, order.getOrderStatus());
+		
+		order.placeOrder();
+		
+		assertEquals(OrderStatus.Delivering, order.getOrderStatus());
+		
+		HashMap<UUID, LocalDate> res = DeliveryService.checkIfDelivered();
+//		System.out.println(res);
+		sys.updateOrdersWithDeliveryDates(res);
+		sys.findAndUpdatePhoneOverdue();
+		sys.findAndUpdateUserOverdue();
+		
+		assertEquals(OrderStatus.Delivered,order.getOrderStatus());
+		assertTrue(PaymentService.refundNormalUserOrder(order));
+		assertFalse(sys.cancelUserOrder(order.getOrderID()));
+		assertTrue(sys.cancelUserOrderDelivered(order.getOrderID()));
+		assertTrue(sys.removeNormalUser(user.getUserID()));		
+	}
+	
+	@Test
+	public void test29() {
+	MovieInfo info = new MovieInfo();
+	String[] actors = { "actor25", "actor26", "actor27" };
+	String[] directors = { "director25", "director26", "director27" };
+	Integer[] ratings = { 1, 2, 3, 4, 2, 1, 0, 5 };
+	Genre genre = Genre.Action;
+	String releaseYear = "2012";
+	String description = "Good Movie :D";
+	info.setActors(new ArrayList<String>(Arrays.asList(actors)));
+	info.setDirectors(new ArrayList<String>(Arrays.asList(directors)));
+	info.setRatings(new ArrayList<Integer>(Arrays.asList(ratings)));
+	info.setDescription(description);
+	info.setGenre(genre);
+	info.setReleaseYear(releaseYear);
+	Movie movie = new Movie("Greatest Movie Ever", 15, UUID.fromString("ee97b06c-55e5-4948-b9f6-2c7fa93a3ec1"),
+			500.6, info);
+	AdminUser user=sys.getAdminUsers().get(0);
+	user.addMovie(movie);
+	user.removeMovie(movie);
+	}
+
+	
+	
 	
 	
 	

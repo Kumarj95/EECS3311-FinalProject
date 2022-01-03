@@ -3,7 +3,7 @@
   "price": 25.99,
   "id": "6b9f2324-2442-4992-931a-ede3eeaecabf",
   "title": "Hello World",
-  "stock": 3,
+  "stock": 2,
   "movieInfo": {
    "actors": [
     "actor1",
@@ -33,7 +33,7 @@
   "price": 25.6,
   "id": "1ddf7695-03f8-40c8-856f-1f84846bc6ae",
   "title": "New Movie",
-  "stock": 18,
+  "stock": 17,
   "movieInfo": {
    "actors": [
     "actorA",
@@ -54,37 +54,6 @@
    "genre": "Animated",
    "description": "Description insert",
    "releaseYear": "1995"
-  }
- },
- {
-  "price": 500.6,
-  "id": "ee97b06c-55e5-4948-b9f6-2c7fa93a3ec1",
-  "title": "Greatest Movie Ever",
-  "stock": 14,
-  "movieInfo": {
-   "actors": [
-    "actor25",
-    "actor26",
-    "actor27"
-   ],
-   "ratings": [
-    1,
-    2,
-    3,
-    4,
-    2,
-    1,
-    0,
-    5
-   ],
-   "directors": [
-    "director25",
-    "director26",
-    "director27"
-   ],
-   "genre": "Action",
-   "description": "Good Movie :D",
-   "releaseYear": "2012"
   }
  },
  {
@@ -115,12 +84,12 @@
   "price": 11.66,
   "id": "09a8e288-5e69-4916-8c56-137de1e49b7e",
   "title": "The third movie",
-  "stock": 25,
+  "stock": 21,
   "movieInfo": {
    "actors": [
     "Actor Name1",
-    " Actor Name2",
-    " Actor Name3"
+    "   Actor Name2",
+    "   Actor Name3"
    ],
    "ratings": [
     1,
@@ -137,8 +106,8 @@
     " Director Name 3"
    ],
    "genre": "Comedy",
-   "description": "The third movie :)",
-   "releaseYear": "2021"
+   "description": "The third movie",
+   "releaseYear": "2022"
   }
  }
 ]

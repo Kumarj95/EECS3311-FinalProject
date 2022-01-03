@@ -512,7 +512,7 @@ public class UserOrderView extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
-        String idS=jTextField2.getText();
+        String idS=jTextField6.getText();
         if(!idS.isBlank()){
             try{
                 UUID id=UUID.fromString(idS);

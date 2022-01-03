@@ -31,26 +31,13 @@ public class NormalUser extends User {
 	}
 
 
-	public NormalUser(String[] arr) {
-		super(arr);
-	}
 
-	@Override
-	public User clone() {
-		User clone= new NormalUser(getUserID(),getUsername(),getPassword(),getEmail());
-		return clone;
-	}
 	
 	public void addOrder(UserOrder order) {
 		if(this.orders!=null) {
 		orders.add(order);
 		updateAllDelievered();
-		}else {
-			orders= new ArrayList<UserOrder>();
-			orders.add(order);
-			updateAllDelievered();
-		}
-		
+		}		
 	}
 	
 	public boolean isAllOrdersDelivered() {

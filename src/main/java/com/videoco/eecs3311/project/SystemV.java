@@ -300,6 +300,8 @@ public class SystemV {
 						PaymentService.chargeUserLateFee(userOrders.get(UUID.fromString(ob.get("orderID").toString())));
 
 					}
+				}else if(orderStatus.equals(OrderStatus.Overdue)) {
+					PaymentService.chargeUserLateFee(userOrders.get(UUID.fromString(ob.get("orderID").toString())));					
 				}
 
 			}
@@ -351,7 +353,10 @@ public class SystemV {
 						PaymentService
 								.chargePhoneUserLateFee(phoneOrders.get(UUID.fromString(ob.get("orderID").toString())));
 					}
+				}else if(orderStatus.equals(OrderStatus.Overdue)) {
+					PaymentService.chargeUserLateFee(userOrders.get(UUID.fromString(ob.get("orderID").toString())));					
 				}
+
 
 			}
 
@@ -1745,9 +1750,10 @@ public class SystemV {
 
 //	public boolean addMovie()
 
-//	public static void main(String[] args) {
-//		System.out.println(System.getProperty("user.dir"));
-//		SystemV s = new SystemV();
+	public static void main(String[] args) {
+		System.out.println(System.getProperty("user.dir"));
+		SystemV s = new SystemV();
+	}
 //		UserOrder order= new UserOrder(UUID.fromString("4d56b74b-3e96-45c2-b4bd-41351537c806"),s.getNormalUsersMap().get(UUID.fromString("724a0ac3-2485-4f12-bd72-b81a137af28f")));
 //		order.addToOrder(UUID.fromString("1ddf7695-03f8-40c8-856f-1f84846bc6ae"));
 //		order.setPayWithPoints(false);

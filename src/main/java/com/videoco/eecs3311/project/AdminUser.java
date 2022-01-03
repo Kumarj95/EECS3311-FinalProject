@@ -12,11 +12,6 @@ public class AdminUser extends User {
 	public AdminUser(String[] arr) {
 		super(arr);
 	}
-	@Override
-	public User clone() {
-		User clone= new AdminUser(getUserID(),getUsername(),getPassword(),getEmail());
-		return clone;
-	}
 	
 	public boolean addMovie(Movie movie) {
 		SystemV sys= SystemV.getInstance();

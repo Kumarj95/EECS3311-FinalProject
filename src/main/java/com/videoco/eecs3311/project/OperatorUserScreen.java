@@ -198,7 +198,7 @@ public class OperatorUserScreen extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
          UUID order=user.simulatePhoneOrderInvalid();
-        if(order==null){
+        if(order!=null){
             JOptionPane.showMessageDialog(this, "How did that work");  
             
         }else{

@@ -3,6 +3,10 @@ package com.videoco.eecs3311.project;
 import java.time.LocalDate;
 
 public class PaymentService {
+	/**
+	 * javadoc
+	 *
+	 */
 	public static boolean handleNormalUserOrder(UserOrder order) {
 		SystemV s= SystemV.getInstance();
 		if(order.isPayWithPoints()) {
@@ -25,6 +29,11 @@ public class PaymentService {
 			return false;
 		}
 	}
+	/**
+	 * javadoc
+	 *
+	 */
+
 	public static boolean handlePhoneUserOrder(PhoneOrder order) {
 			if(order.getPaymentInfo().isValid()) {
 				// do transaction
@@ -32,34 +41,51 @@ public class PaymentService {
 			}
 			return false;
 	}
-	
+	/**
+	 * javadoc
+	 *
+	 */
+
 	public static boolean refundNormalUserOrder(UserOrder order) {
 		SystemV s= SystemV.getInstance();
 		if(order.isPayWithPoints()) {
 			NormalUser a=s.getNormalUsersMap().get(order.getUserID());
 			a.setLoyaltyPoints(a.getLoyaltyPoints()+10);
 			s.updateNormalUser(order.getUserID(), a);
+			
 			return true;
 		}else {
 			// do refund through credit card
 		}
 		return true;
 	}
+	/**
+	 * javadoc
+	 *
+	 */
+
 	public static boolean refundPhoneOrder(PhoneOrder order) {
 		//refund phone order
 		return true;
 	}
+	/**
+	 * javadoc
+	 *
+	 */
+
 	
 	public static boolean chargeUserLateFee(UserOrder order) {
-		if(!order.getDateDelivered().equals(LocalDate.MIN)) {
-			if(order.getDateDelivered().plusDays(14).isAfter(LocalDate.now())) {
 				double lateFee=calculateUserLateFee(order);
+				System.out.println("Charging Late Fee! " + lateFee+ " on order id "+ order.getOrderID());
 				return true;
-			}
-		}
-		return false;
+
 	}
         
+	/**
+	 * javadoc
+	 *
+	 */
+
         public static double calculateUserLateFee(UserOrder order){
             SystemV sys= SystemV.getInstance();
             String userProvince= sys.getNormalUsersMap().get(order.getUserID()).getProvince();
@@ -73,17 +99,25 @@ public class PaymentService {
             }
             return lateFee;
         }
-        
+    	/**
+    	 * javadoc
+    	 *
+    	 */
+
     	public static boolean chargePhoneUserLateFee(PhoneOrder order) {
-    		if(!order.getDateDelivered().equals(LocalDate.MIN)) {
-    			if(order.getDateDelivered().plusDays(14).isAfter(LocalDate.now())) {
     				double lateFee=calculatePhoneUserLateFee(order);
+    				System.out.println("Charging Late Fee! " + lateFee+ " on order id "+ order.getOrderID());
+    				
     				// do third party stuff
+    				
     				return true;
-    			}
-    		}
-    		return false;
     	}
+    	
+    	/**
+    	 * javadoc
+    	 *
+    	 */
+
     	
     	public static double calculatePhoneUserLateFee(PhoneOrder order) {
     		double d=0;

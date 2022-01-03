@@ -60,7 +60,6 @@ public abstract class User {
 	public String toString() {
 		return "This is a user of type " +usertype + " with username " + username +" with id: " + userID;
 	}
-	public abstract User clone();
 	
 	
 	
